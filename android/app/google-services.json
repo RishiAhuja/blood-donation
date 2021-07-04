@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "722816049502",
+    "project_id": "blood-e25ce",
+    "storage_bucket": "blood-e25ce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:722816049502:android:2866e81c03a48fcbebafcf",
+        "android_client_info": {
+          "package_name": "com.rishi.blood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "722816049502-e7n77l3ehourid645kf7mr761i3519rj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaQvW8pYQkF8QXFI9iEhPXIZ3x6hiRPy8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "722816049502-e7n77l3ehourid645kf7mr761i3519rj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
