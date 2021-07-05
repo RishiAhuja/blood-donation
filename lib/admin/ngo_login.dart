@@ -1,7 +1,9 @@
 import 'package:blood/admin/admin_login.dart';
+import 'package:blood/admin/become_ngo.dart';
 import 'package:blood/admin/pending_request.dart';
 import 'package:blood/helper/error_ngo_login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -200,6 +202,23 @@ class _NgoLoginState extends State<NgoLogin> {
                               ),
                             ),
 
+                            GestureDetector(
+                              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => BecomeNgo())),
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(10, 20, 34, 0),
+                                  child:
+                                  Text(
+                                    'Become an NGO',
+                                    style: GoogleFonts.poppins(
+                                      decoration: TextDecoration.underline
+                                    ),
+                                  )
+
+                                ),
+                              ),
+                            ),
 
                             InkWell(
                               onTap: ()

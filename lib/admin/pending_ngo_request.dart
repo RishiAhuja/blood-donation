@@ -1,48 +1,25 @@
-import 'package:blood/admin/pending_ngo_request.dart';
-import 'package:blood/helper/add_new_ngo.dart';
-import 'package:blood/helper/edit_ngo_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 
-class Admin extends StatefulWidget {
-   @override
-  _AdminState createState() => _AdminState();
+class PendingNgoRequest extends StatefulWidget {
+  @override
+  _PendingNgoRequestState createState() => _PendingNgoRequestState();
 }
 
-class _AdminState extends State<Admin> {
+class _PendingNgoRequestState extends State<PendingNgoRequest> {
   final GlobalKey<ScaffoldState> _scaffold = GlobalKey<ScaffoldState>();
-
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Firebase.initializeApp().whenComplete(() {
-      print("completed");
-      setState(() {});
-    });
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => PendingNgoRequest()));
-        },
-        backgroundColor: Colors.deepPurpleAccent[200],
-        child: Icon(Icons.pending_actions, color: Colors.white),
-      ),
       key: _scaffold,
       backgroundColor: Colors.deepPurpleAccent[200],
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.deepPurpleAccent[200],
-        actions: [
-          IconButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddNewNgo()));}, icon: Icon(Icons.add, color: Colors.white))
-        ],
       ),
       body: Align(
         alignment: AlignmentDirectional.bottomCenter,
@@ -88,11 +65,11 @@ class _AdminState extends State<Admin> {
                           leading: CircleAvatar(child: Icon(Icons.person)),
                           trailing: GestureDetector(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => EditNgoData(dataName: data['name'], dataCity: '${data['city']}', dataNumber: '${data['phone']}', dataPass: '${data['password']}', dataState: '${data['state']}', dataUser: '${data['username']}', doc: documentSnapshot.id,)));
+                              // Navigator.push(context, MaterialPageRoute(builder: (context) => EditNgoData(dataName: data['name'], dataCity: '${data['city']}', dataNumber: '${data['phone']}', dataPass: '${data['password']}', dataState: '${data['state']}', dataUser: '${data['username']}', doc: documentSnapshot.id,)));
                             },
                             child: Icon(
-                              Icons.arrow_forward_ios,
-                              color: Colors.black
+                                Icons.arrow_forward_ios,
+                                color: Colors.black
                             ),
                           ),
                           title: data == null ? Text('Error in data', style: GoogleFonts.poppins(),) : Text(data['name'], style: GoogleFonts.poppins()),
@@ -100,7 +77,7 @@ class _AdminState extends State<Admin> {
                         );
                       },
                       // orderBy is compulsory to enable pagination
-                      query: FirebaseFirestore.instance.collection('ngo'),
+                      query: FirebaseFirestore.instance.collection('ngo_request').where('pending', isEqualTo: false),
                       //Change types accordingly
                       itemBuilderType: PaginateBuilderType.listView,
                       // to fetch real-time data
