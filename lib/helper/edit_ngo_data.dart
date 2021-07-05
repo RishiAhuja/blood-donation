@@ -142,21 +142,23 @@ class _EditNgoDataState extends State<EditNgoData> {
                               fontSize: 19
                           ),
                         ),
-                        TextFormField(
-                          initialValue: widget.dataCity,
-                          onChanged: (val){
-                            setState(() {
-                              city = val;
-                            });
-                          },
-                          // controller: widget.city,
-                          decoration: InputDecoration(
-                              border: InputBorder.none
-                          ),
-                          style: GoogleFonts.poppins(
-                              fontSize: 19
-                          ),
-                        ),
+                        // TextFormField(
+                        //   initialValue: widget.dataCity,
+                        //   onChanged: (val){
+                        //     setState(() {
+                        //       city = val;
+                        //     });
+                        //   },
+                        //   // controller: widget.city,
+                        //   decoration: InputDecoration(
+                        //       border: InputBorder.none
+                        //   ),
+                        //   style: GoogleFonts.poppins(
+                        //       fontSize: 19
+                        //   ),
+                        // ),
+
+
                       ]),
                   TableRow(
                       children: [
@@ -192,12 +194,6 @@ class _EditNgoDataState extends State<EditNgoData> {
                           ),
                         ),
                         GestureDetector(
-                          // onTap: () async{
-                          //   if (await canLaunch('tel:+91${data['phone']}')) {
-                          //     await launch('tel:+91${data['phone']}');
-                          //   } else {
-                          //     throw 'Could not launch tel:+91${data['phone']}';
-                          //   }
                           // },
                           child: TextFormField(
                             initialValue: widget.dataNumber,

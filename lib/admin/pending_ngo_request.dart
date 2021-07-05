@@ -1,3 +1,4 @@
+import 'package:blood/helper/approve_ngo_request.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -65,7 +66,7 @@ class _PendingNgoRequestState extends State<PendingNgoRequest> {
                           leading: CircleAvatar(child: Icon(Icons.person)),
                           trailing: GestureDetector(
                             onTap: (){
-                              // Navigator.push(context, MaterialPageRoute(builder: (context) => EditNgoData(dataName: data['name'], dataCity: '${data['city']}', dataNumber: '${data['phone']}', dataPass: '${data['password']}', dataState: '${data['state']}', dataUser: '${data['username']}', doc: documentSnapshot.id,)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => ApproveNgoRequest(phone: data['phone'], state: data['state'], name: data['name'], city: data['city'])));
                             },
                             child: Icon(
                                 Icons.arrow_forward_ios,
@@ -77,7 +78,7 @@ class _PendingNgoRequestState extends State<PendingNgoRequest> {
                         );
                       },
                       // orderBy is compulsory to enable pagination
-                      query: FirebaseFirestore.instance.collection('ngo_request').where('pending', isEqualTo: false),
+                      query: FirebaseFirestore.instance.collection('ngo_request').where('pending', isEqualTo: true),
                       //Change types accordingly
                       itemBuilderType: PaginateBuilderType.listView,
                       // to fetch real-time data
