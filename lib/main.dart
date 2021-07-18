@@ -18,4 +18,26 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+//-----Ngo + Admin------//
+// name
+// blood group
+// age
+// contact no
+// alternate no
+// adhar no (verify)
+// picture (optional)
+// state
+// district
+// city
 
+//lAST DONATION STATUS
+//TOTAL DONATION
+
+//nGOS - search - via- state-district-city//
+//Name
+//Contact Number
+
+
+
+
+//New Phone no. (become a ngo0
