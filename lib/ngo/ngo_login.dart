@@ -1,6 +1,6 @@
 import 'package:blood/admin/admin_login.dart';
-import 'package:blood/admin/become_ngo.dart';
-import 'package:blood/admin/pending_request.dart';
+import 'package:blood/ngo/become_ngo.dart';
+import 'package:blood/ngo/ngo_panel.dart';
 import 'package:blood/helper/error_ngo_login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -44,7 +44,7 @@ class _NgoLoginState extends State<NgoLogin> {
                 print(result.data());
                 setState(() {
                   status = 'success';
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Pending()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Pending(ngoUsername: username.text.trim(),)));
                 });
               });
             }
@@ -226,7 +226,7 @@ class _NgoLoginState extends State<NgoLogin> {
                                 login();
                               },
                               child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 120, vertical: 20),
+                                margin: EdgeInsets.symmetric(horizontal: 100, vertical: 20),
                                 padding: EdgeInsets.symmetric(vertical: 7, horizontal: 25),
                                 decoration: BoxDecoration(
                                   border: Border.all(color: Colors.deepPurpleAccent, width: 2),

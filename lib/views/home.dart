@@ -1,4 +1,5 @@
-import 'package:blood/admin/ngo_login.dart';
+import 'package:blood/ngo/ngo_login.dart';
+import 'package:blood/views/donate.dart';
 import 'package:blood/views/request.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +15,18 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.deepPurpleAccent[200],
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.deepPurpleAccent[200],
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(40),
+        child: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.deepPurpleAccent[200],
+        ),
       ),
-      body: Align(
-        alignment: AlignmentDirectional.bottomCenter,
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Align(
+          alignment: AlignmentDirectional.bottomCenter,
           child: Column(
+            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
@@ -54,56 +59,65 @@ class _HomeState extends State<Home> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              InkResponse(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => Request()));
-                                },
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width/2.3,
-                                  height: 160,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: Colors.deepPurpleAccent[200]
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset('assets/phone-survey.png', height: 95, width: 95,),
-                                      SizedBox(height: 10,),
-                                      Text(
-                                        'Request Blood',
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 19,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold
-                                        ),
-                                      )
-                                    ],
+                              Flexible(
+                                child: InkResponse(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => Request()));
+                                  },
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width/2.3,
+                                    height: 160,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                      color: Colors.deepPurpleAccent[200]
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset('assets/phone-survey.png', height: 95, width: 95,),
+                                        SizedBox(height: 10,),
+                                        Text(
+                                          'Request Blood',
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 18,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
 
-                              Container(
-                                width: MediaQuery.of(context).size.width/2.3,
-                                height: 160,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: Colors.deepPurpleAccent[200]
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset('assets/blood.png', height: 95, width: 95,),
-                                    SizedBox(height: 10,),
-                                    Text(
-                                      'Donate Blood',
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 19,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold
-                                      ),
-                                    )
-                                  ],
+                              Flexible(
+                                child: InkResponse(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => Donate()));
+                                  },
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width/2.3,
+                                    height: 160,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(4),
+                                        color: Colors.deepPurpleAccent[200]
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset('assets/blood.png', height: 95, width: 95,),
+                                        SizedBox(height: 10,),
+                                        Text(
+                                          'Donate Blood',
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 18,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               )
                             ],
@@ -114,32 +128,7 @@ class _HomeState extends State<Home> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width/2.3,
-                                height: 160,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: Colors.deepPurpleAccent[200]
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset('assets/blood-bank.png', height: 95, width: 95,),
-                                    SizedBox(height: 10,),
-                                    Text(
-                                      'Blood Bank',
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 19,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-
-                              InkWell(
-                                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NgoLogin())),
+                              Flexible(
                                 child: Container(
                                   width: MediaQuery.of(context).size.width/2.3,
                                   height: 160,
@@ -150,17 +139,46 @@ class _HomeState extends State<Home> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Image.asset('assets/locksmith.png', height: 95, width: 95,),
+                                      Image.asset('assets/blood-bank.png', height: 95, width: 95,),
                                       SizedBox(height: 10,),
                                       Text(
-                                        'Login',
+                                        'Blood Bank',
                                         style: GoogleFonts.poppins(
-                                            fontSize: 19,
+                                            fontSize: 18,
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold
                                         ),
                                       )
                                     ],
+                                  ),
+                                ),
+                              ),
+
+                              Flexible(
+                                child: InkWell(
+                                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NgoLogin())),
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width/2.3,
+                                    height: 160,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(4),
+                                        color: Colors.deepPurpleAccent[200]
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset('assets/locksmith.png', height: 95, width: 95,),
+                                        SizedBox(height: 10,),
+                                        Text(
+                                          'Login',
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 18,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               )
@@ -174,51 +192,55 @@ class _HomeState extends State<Home> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width/2.3,
-                                height: 160,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: Colors.deepPurpleAccent[200]
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset('assets/shelter.png', height: 95, width: 95,),
-                                    SizedBox(height: 10,),
-                                    Text(
-                                      'NGOs',
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 19,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold
-                                      ),
-                                    )
-                                  ],
+                              Flexible(
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width/2.3,
+                                  height: 160,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                      color: Colors.deepPurpleAccent[200]
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset('assets/shelter.png', height: 95, width: 95,),
+                                      SizedBox(height: 10,),
+                                      Text(
+                                        'NGOs',
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 18,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
 
-                              Container(
-                                width: MediaQuery.of(context).size.width/2.3,
-                                height: 160,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: Colors.deepPurpleAccent[200]
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset('assets/information.png', height: 95, width: 95,),
-                                    SizedBox(height: 10,),
-                                    Text(
-                                      'About',
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 19,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold
-                                      ),
-                                    )
-                                  ],
+                              Flexible(
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width/2.3,
+                                  height: 160,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                      color: Colors.deepPurpleAccent[200]
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset('assets/information.png', height: 95, width: 95,),
+                                      SizedBox(height: 10,),
+                                      Text(
+                                        'About',
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 18,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               )
                             ],

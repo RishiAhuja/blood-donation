@@ -1,6 +1,11 @@
-import 'package:blood/admin/pending_ngo_request.dart';
-import 'package:blood/helper/add_new_ngo.dart';
-import 'package:blood/helper/edit_ngo_data.dart';
+import 'package:blood/admin_tile_functions/approved_donations.dart';
+import 'package:blood/admin_tile_functions/approved_request.dart';
+import 'package:blood/admin_tile_functions/pending_ngo_request.dart';
+import 'package:blood/admin/add_new_ngo.dart';
+import 'package:blood/admin/edit_ngo_data.dart';
+import 'package:blood/admin_tile_functions/donation_requests.dart';
+import 'package:blood/admin_tile_functions/pending_request.dart';
+import 'package:blood/ngo/ngo_panel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -28,13 +33,13 @@ class _AdminState extends State<Admin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => PendingNgoRequest()));
-        },
-        backgroundColor: Colors.deepPurpleAccent[200],
-        child: Icon(Icons.pending_actions, color: Colors.white),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     Navigator.push(context, MaterialPageRoute(builder: (context) => PendingNgoRequest()));
+      //   },
+      //   backgroundColor: Colors.deepPurpleAccent[200],
+      //   child: Icon(Icons.pending_actions, color: Colors.white),
+      // ),
       key: _scaffold,
       backgroundColor: Colors.deepPurpleAccent[200],
       appBar: AppBar(
@@ -80,31 +85,150 @@ class _AdminState extends State<Admin> {
                   ),
                   child: Align(
                     alignment: Alignment.topCenter,
-                    child: PaginateFirestore(
-                      //item builder type is compulsory.
-                      itemBuilder: (index, context, documentSnapshot) {
-                        final data = documentSnapshot.data() as Map;
-                        return ListTile(
-                          leading: CircleAvatar(child: Icon(Icons.person)),
-                          trailing: GestureDetector(
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => EditNgoData(dataName: data['name'], dataCity: '${data['city']}', dataNumber: '${data['phone']}', dataPass: '${data['password']}', dataState: '${data['state']}', dataUser: '${data['username']}', doc: documentSnapshot.id,)));
-                            },
-                            child: Icon(
-                              Icons.arrow_forward_ios,
-                              color: Colors.black
+                    // child: PaginateFirestore(
+                    //   //item builder type is compulsory.
+                    //   itemBuilder: (index, context, documentSnapshot) {
+                    //     final data = documentSnapshot.data() as Map;
+                    //     return ListTile(
+                    //       leading: CircleAvatar(child: Icon(Icons.person)),
+                    //       trailing: GestureDetector(
+                    //         onTap: (){
+                    //           Navigator.push(context, MaterialPageRoute(builder: (context) => EditNgoData(dataName: data['name'], dataCity: '${data['city']}', dataNumber: '${data['phone']}', dataPass: '${data['password']}', dataState: '${data['state']}', dataUser: '${data['username']}', doc: documentSnapshot.id,)));
+                    //         },
+                    //         child: Icon(
+                    //           Icons.arrow_forward_ios,
+                    //           color: Colors.black
+                    //         ),
+                    //       ),
+                    //       title: data == null ? Text('Error in data', style: GoogleFonts.poppins(),) : Text(data['name'], style: GoogleFonts.poppins()),
+                    //       subtitle: Text('${toBeginningOfSentenceCase('${data['city']}')} in ${toBeginningOfSentenceCase('${data['state']}')}', style: GoogleFonts.poppins(),),
+                    //     );
+                    //   },
+                    //   // orderBy is compulsory to enable pagination
+                    //   query: FirebaseFirestore.instance.collection('ngo'),
+                    //   //Change types accordingly
+                    //   itemBuilderType: PaginateBuilderType.listView,
+                    //   // to fetch real-time data
+                    //   isLive: true,
+                    // ),
+                    child: ListView(
+                      physics: NeverScrollableScrollPhysics(),
+                      children: [
+                        SizedBox(height: 25,),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 4, horizontal: 20),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.deepPurpleAccent)
+                          ),
+                          child: ListTile(
+                            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AdminPendingRequest())),
+                            title: Text(
+                              'Pending Requests',
+                              style: GoogleFonts.poppins(),
+                            ),
+                            subtitle: Text(
+                              'All Pending Requests for blood',
+                              style: GoogleFonts.poppins(),
                             ),
                           ),
-                          title: data == null ? Text('Error in data', style: GoogleFonts.poppins(),) : Text(data['name'], style: GoogleFonts.poppins()),
-                          subtitle: Text('${toBeginningOfSentenceCase('${data['city']}')} in ${toBeginningOfSentenceCase('${data['state']}')}', style: GoogleFonts.poppins(),),
-                        );
-                      },
-                      // orderBy is compulsory to enable pagination
-                      query: FirebaseFirestore.instance.collection('ngo'),
-                      //Change types accordingly
-                      itemBuilderType: PaginateBuilderType.listView,
-                      // to fetch real-time data
-                      isLive: true,
+                        ),
+
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 4, horizontal: 20),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: Colors.deepPurpleAccent)
+                          ),
+                          child: ListTile(
+                            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ApprovedRequest())),
+                            title: Text(
+                              'Approved Requests',
+                              style: GoogleFonts.poppins(),
+                            ),
+                            subtitle: Text(
+                              'All approved blood requests',
+                              style: GoogleFonts.poppins(),
+                            ),
+                          ),
+                        ),
+
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 4, horizontal: 20),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: Colors.deepPurpleAccent)
+                          ),
+                          child: ListTile(
+                            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AdminDonationRequest())),
+                            title: Text(
+                              'Donation Requests',
+                              style: GoogleFonts.poppins(),
+                            ),
+                            subtitle: Text(
+                              'All Pending blood Donations',
+                              style: GoogleFonts.poppins(),
+                            ),
+                          ),
+                        ),
+
+
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 4, horizontal: 20),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: Colors.deepPurpleAccent)
+                          ),
+                          child: ListTile(
+                            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AdminApprovedDonation())),
+                            title: Text(
+                              'Approved Donations',
+                              style: GoogleFonts.poppins(),
+                            ),
+                            subtitle: Text(
+                              'All Approved blood Donations',
+                              style: GoogleFonts.poppins(),
+                            ),
+                          ),
+                        ),
+
+
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 4, horizontal: 20),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: Colors.deepPurpleAccent)
+                          ),
+                          child: ListTile(
+                            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PendingNgoRequest())),
+                            title: Text(
+                              'NGO Requests',
+                              style: GoogleFonts.poppins(),
+                            ),
+                            subtitle: Text(
+                              'All Pending NGO Requests',
+                              style: GoogleFonts.poppins(),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 4, horizontal: 20),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: Colors.deepPurpleAccent)
+                          ),
+                          child: ListTile(
+                            title: Text(
+                              'Approved NGO',
+                              style: GoogleFonts.poppins(),
+                            ),
+                            subtitle: Text(
+                              "All Approved NGO's",
+                              style: GoogleFonts.poppins(),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),

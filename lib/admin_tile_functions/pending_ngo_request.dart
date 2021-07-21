@@ -1,4 +1,4 @@
-import 'package:blood/helper/approve_ngo_request.dart';
+import 'package:blood/admin/approve_ngo_request.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,7 +29,7 @@ class _PendingNgoRequestState extends State<PendingNgoRequest> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Welcome Back!',
+                'Pending Request!',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(
                     fontSize: 25,

@@ -1,3 +1,5 @@
+import 'package:blood/ngo/donation_pending.dart';
+import 'package:blood/views/donate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,8 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Pending extends StatefulWidget {
+  final String ngoUsername;
+  Pending({this.ngoUsername});
   @override
   _PendingState createState() => _PendingState();
 }
@@ -25,6 +29,12 @@ class _PendingState extends State<Pending> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffold,
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => DonatePending(ngoUsername: widget.ngoUsername,)));
+        },
+        child: Icon(Icons.event_available),
+      ),
       backgroundColor: Colors.deepPurpleAccent[200],
       appBar: AppBar(
         elevation: 0,
@@ -39,7 +49,7 @@ class _PendingState extends State<Pending> {
               Align(
                 alignment: Alignment.topCenter,
                 child: Text(
-                  'Pending Requests',
+                  'NGO Panel',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                       fontSize: 25,
@@ -106,7 +116,7 @@ class _PendingState extends State<Pending> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(top: 20.0),
-                                  child: Image.asset('assets/no-data.png'),
+                                  child: Image.asset('assets/no-data.png', width: 270, height: 270,),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(25.0),
@@ -116,7 +126,7 @@ class _PendingState extends State<Pending> {
                                       'No data Available, You are all set!',
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.poppins(
-                                        fontSize: 24
+                                        fontSize: 22
                                       ),
                                     ),
                                   ),
@@ -164,14 +174,14 @@ class _PendingState extends State<Pending> {
                                                       '${data['attendant']} requested ${data['blood']} blood',
                                                       style: GoogleFonts.poppins(
                                                         color: Colors.white,
-                                                        fontSize: 16
+                                                        fontSize: 15
                                                       ),
                                                     ),
                                                     Text(
                                                       'for ${data['name']}',
                                                       style: GoogleFonts.poppins(
                                                           color: Colors.white,
-                                                          fontSize: 16
+                                                          fontSize: 15
                                                       ),
                                                     )
                                                   ],
@@ -319,7 +329,7 @@ class _PendingState extends State<Pending> {
                                                         InkWell(
                                                           onTap: ()
                                                           async{
-                                                            await FirebaseFirestore.instance.collection('request').doc('${data['id']}').update({'pending': false})
+                                                            await FirebaseFirestore.instance.collection('request').doc('${data['id']}').update({'pending': false, 'ngo': '${widget.ngoUsername}'})
                                                             .then((value) {
                                                               _scaffold.currentState.showSnackBar(SnackBar(content: Text('Approved Successfully', style: GoogleFonts.poppins(),),));
                                                               Navigator.of(

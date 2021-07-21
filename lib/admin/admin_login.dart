@@ -178,11 +178,11 @@ class _AdminLoginState extends State<AdminLogin> {
                                           fontSize: 16.0
                                       );
                                     }
-                                  }
+                                 }
                               },
                               child: Container(
                                 margin: EdgeInsets.symmetric(
-                                    horizontal: 120, vertical: 20),
+                                    horizontal: 110, vertical: 20),
                                 padding: EdgeInsets.symmetric(
                                     vertical: 7, horizontal: 25),
                                 decoration: BoxDecoration(
