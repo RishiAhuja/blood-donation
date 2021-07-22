@@ -1,17 +1,13 @@
 import 'package:blood/admin_tile_functions/approved_donations.dart';
+import 'package:blood/admin_tile_functions/approved_ngo.dart';
 import 'package:blood/admin_tile_functions/approved_request.dart';
 import 'package:blood/admin_tile_functions/pending_ngo_request.dart';
 import 'package:blood/admin/add_new_ngo.dart';
-import 'package:blood/admin/edit_ngo_data.dart';
 import 'package:blood/admin_tile_functions/donation_requests.dart';
 import 'package:blood/admin_tile_functions/pending_request.dart';
-import 'package:blood/ngo/ngo_panel.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-import 'package:paginate_firestore/paginate_firestore.dart';
 
 class Admin extends StatefulWidget {
    @override
@@ -33,13 +29,6 @@ class _AdminState extends State<Admin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     Navigator.push(context, MaterialPageRoute(builder: (context) => PendingNgoRequest()));
-      //   },
-      //   backgroundColor: Colors.deepPurpleAccent[200],
-      //   child: Icon(Icons.pending_actions, color: Colors.white),
-      // ),
       key: _scaffold,
       backgroundColor: Colors.deepPurpleAccent[200],
       appBar: AppBar(
@@ -218,6 +207,7 @@ class _AdminState extends State<Admin> {
                               border: Border.all(color: Colors.deepPurpleAccent)
                           ),
                           child: ListTile(
+                            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AdminApprovedNgo())),
                             title: Text(
                               'Approved NGO',
                               style: GoogleFonts.poppins(),

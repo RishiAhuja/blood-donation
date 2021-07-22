@@ -9,6 +9,7 @@ class EditNgoData extends StatefulWidget {
   final String dataCity;
   final String dataState;
   final String dataNumber;
+  final String dataDist;
   final String doc;
 
   EditNgoData({
@@ -19,6 +20,7 @@ class EditNgoData extends StatefulWidget {
     @required this.dataState,
     @required this.dataUser,
     @required this.doc,
+    @required this.dataDist
 });
 
   @override
@@ -32,6 +34,7 @@ class _EditNgoDataState extends State<EditNgoData> {
   String city;
   String state;
   String number;
+  String district;
   final GlobalKey<ScaffoldState> _scaffold = GlobalKey<ScaffoldState>();
   @override
   void initState() {
@@ -44,6 +47,7 @@ class _EditNgoDataState extends State<EditNgoData> {
       city = widget.dataCity;
       state = widget.dataState;
       number = widget.dataNumber;
+      district = widget.dataDist;
     });
   }
   @override
@@ -142,24 +146,52 @@ class _EditNgoDataState extends State<EditNgoData> {
                               fontSize: 19
                           ),
                         ),
-                        // TextFormField(
-                        //   initialValue: widget.dataCity,
-                        //   onChanged: (val){
-                        //     setState(() {
-                        //       city = val;
-                        //     });
-                        //   },
-                        //   // controller: widget.city,
-                        //   decoration: InputDecoration(
-                        //       border: InputBorder.none
-                        //   ),
-                        //   style: GoogleFonts.poppins(
-                        //       fontSize: 19
-                        //   ),
-                        // ),
+                        TextFormField(
+                          initialValue: widget.dataCity,
+                          onChanged: (val){
+                            setState(() {
+                              city = val;
+                            });
+                          },
+                          // controller: widget.city,
+                          decoration: InputDecoration(
+                              border: InputBorder.none
+                          ),
+                          style: GoogleFonts.poppins(
+                              fontSize: 19
+                          ),
+                        ),
 
 
                       ]),
+
+                  TableRow(
+                      children: [
+                        Text(
+                          'District',
+                          style: GoogleFonts.poppins(
+                              fontSize: 19
+                          ),
+                        ),
+                        TextFormField(
+                          initialValue: widget.dataDist,
+                          onChanged: (val){
+                            setState(() {
+                              district = val;
+                            });
+                          },
+                          // controller: widget.city,
+                          decoration: InputDecoration(
+                              border: InputBorder.none
+                          ),
+                          style: GoogleFonts.poppins(
+                              fontSize: 19
+                          ),
+                        ),
+
+
+                      ]),
+
                   TableRow(
                       children: [
                         Text(
@@ -229,6 +261,7 @@ class _EditNgoDataState extends State<EditNgoData> {
                       'username': user,
                       'password': pass,
                       'city': city.toLowerCase(),
+                      'district': district.toLowerCase(),
                       'state': state.toLowerCase(),
                       'phone': number
                     })

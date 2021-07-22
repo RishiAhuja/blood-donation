@@ -8,7 +8,9 @@ class ApproveNgoRequest extends StatefulWidget {
   final String city;
   final String state;
   final String phone;
-  ApproveNgoRequest({@required this.phone, @required this.state, @required this.name, @required this.city});
+  final String district;
+  final String doc;
+  ApproveNgoRequest({@required this.doc, @required this.phone, @required this.state, @required this.name, @required this.city, @required this.district});
   @override
   _ApproveNgoRequestState createState() => _ApproveNgoRequestState();
 }
@@ -39,7 +41,12 @@ class _ApproveNgoRequestState extends State<ApproveNgoRequest> {
         'state': widget.state.toLowerCase(),
         'phone': widget.phone.trim()
       })
-          .then((value) => _scaffold.currentState.showSnackBar(SnackBar(content: Text('Submitted Successfully', style: GoogleFonts.poppins(),),)))
+          .then((value) {
+            FirebaseFirestore.instance.collection('ngo_request').doc('${widget.doc}').update({'pending': false}).then((value) {
+              _scaffold.currentState.showSnackBar(SnackBar(content: Text('Submission Successfully', style: GoogleFonts.poppins(),),));
+
+            });
+      })
           .catchError((error) {
         print(error);
         _scaffold.currentState.showSnackBar(SnackBar(content: Text('Submission Failed', style: GoogleFonts.poppins(),),));

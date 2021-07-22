@@ -1,18 +1,18 @@
 import 'package:blood/admin/approve_ngo_request.dart';
+import 'package:blood/admin/edit_ngo_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 
-class PendingNgoRequest extends StatefulWidget {
+class AdminApprovedNgo extends StatefulWidget {
   @override
-  _PendingNgoRequestState createState() => _PendingNgoRequestState();
+  _AdminApprovedNgoState createState() => _AdminApprovedNgoState();
 }
 
-class _PendingNgoRequestState extends State<PendingNgoRequest> {
+class _AdminApprovedNgoState extends State<AdminApprovedNgo> {
   final GlobalKey<ScaffoldState> _scaffold = GlobalKey<ScaffoldState>();
-  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +29,7 @@ class _PendingNgoRequestState extends State<PendingNgoRequest> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Pending Request!',
+                'Approved NGO!',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(
                     fontSize: 25,
@@ -67,7 +67,7 @@ class _PendingNgoRequestState extends State<PendingNgoRequest> {
                           leading: CircleAvatar(child: Icon(Icons.person)),
                           trailing: GestureDetector(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => ApproveNgoRequest(phone: data['phone'], state: data['state'], name: data['name'], city: data['city'], district: data['district'], doc: data['doc'],)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => EditNgoData(dataName: data['name'], dataCity: data['city'], dataNumber: data['phone'], dataPass: data['password'], dataState: data['state'], dataUser: data['username'], dataDist: data['district'], doc: data['id'])));
                             },
                             child: Icon(
                                 Icons.arrow_forward_ios,
@@ -79,7 +79,7 @@ class _PendingNgoRequestState extends State<PendingNgoRequest> {
                         );
                       },
                       // orderBy is compulsory to enable pagination
-                      query: FirebaseFirestore.instance.collection('ngo_request').where('pending', isEqualTo: true),
+                      query: FirebaseFirestore.instance.collection('ngo'),
                       //Change types accordingly
                       itemBuilderType: PaginateBuilderType.listView,
                       // to fetch real-time data
