@@ -86,6 +86,18 @@ class _DonateState extends State<Donate> {
               _scaffold.currentState.showSnackBar(SnackBar(content: Text('Submitted Successfully', style: GoogleFonts.poppins(),),));
                   setState(() {
                     isUploading = false;
+
+                    var randomDoc = FirebaseFirestore.instance.collection("notifications").doc();
+                    FirebaseFirestore.instance.collection('pending_donation_request_notification').doc('${randomDoc.id}').set({
+                      'topic': 'ngo',
+                      'name': '${name.text}',
+                      'blood': bloodGroup,
+                      'id': randomDoc.id,
+                      'sent': false
+                    }).then((value) {
+                      _scaffold.currentState.showSnackBar(SnackBar(content: Text('Submitted Successfully', style: GoogleFonts.poppins(),),));
+                    });
+
                     Navigator.pop(context);
                   });
             });
@@ -114,7 +126,16 @@ class _DonateState extends State<Donate> {
                 });
                 Navigator.pop(context);
 
-                _scaffold.currentState.showSnackBar(SnackBar(content: Text('Submitted Successfully', style: GoogleFonts.poppins(),),));
+                var randomDoc = FirebaseFirestore.instance.collection("pending_donation_request_notification").doc();
+                FirebaseFirestore.instance.collection('notifications').doc('${randomDoc.id}').set({
+                  'topic': 'ngo',
+                  'name': '${name.text}',
+                  'blood': bloodGroup,
+                  'id': randomDoc.id,
+                  'sent': false
+                }).then((value) {
+                  _scaffold.currentState.showSnackBar(SnackBar(content: Text('Submitted Successfully', style: GoogleFonts.poppins(),),));
+                });
           });
 
         }
@@ -138,713 +159,700 @@ class _DonateState extends State<Donate> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffold,
-      backgroundColor: Colors.deepPurpleAccent[200],
+      backgroundColor: Colors.red,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(45),
         child: AppBar(
           elevation: 0,
-          backgroundColor: Colors.deepPurpleAccent[200],
+          backgroundColor: Colors.red,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Align(
-                alignment: Alignment.topCenter,
-                child: Text(
-                  'Donate Blood',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                      fontSize: 25,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold
-                  ),
-                ),
-              ),
-              SizedBox(height: 20,),
-              Material(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(
+            'Donate Blood',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.poppins(
+                fontSize: 25,
                 color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-                elevation: 15,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height/1.25,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(30))
-                  ),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 30),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 30),
-                              child: Text(
-                                'Please submit a quick form!',
-                                style: GoogleFonts.poppins(
-                                    fontSize: 19,
-                                    color: Colors.black
-                                ),
-                              ),
-                            ),
+                fontWeight: FontWeight.bold
+            ),
+          ),
+          SizedBox(height: 20,),
+          Material(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+            elevation: 15,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height/1.25,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(30))
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 30),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 30),
+                        child: Text(
+                          'Please submit a quick form!',
+                          style: GoogleFonts.poppins(
+                              fontSize: 19,
+                              color: Colors.black
                           ),
-                          SizedBox(height: 20,),
-                          Container(
-                            child: Form(
-                              key: _formKey,
-                              child: Container(
-                                height: MediaQuery.of(context).size.height/1.45,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20,),
+                    Container(
+                      child: Form(
+                        key: _formKey,
+                        child: Container(
+                          height: MediaQuery.of(context).size.height/1.45,
 
-                                child: SingleChildScrollView(
-                                  child: Column(
+                          child: SingleChildScrollView(
+                            child: Column(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 30),
+                                    width: MediaQuery.of(context).size.width/1.3,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(color: Colors.grey)
+                                    ),
+                                    child: Row(
                                       children: [
+                                        SizedBox(width: 10,),
+                                        Icon(Icons.person, color: Colors.grey, ),
+                                        SizedBox(width: 10,),
                                         Container(
-                                          margin: EdgeInsets.symmetric(horizontal: 30),
-                                          width: MediaQuery.of(context).size.width/1.3,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8),
-                                              border: Border.all(color: Colors.grey)
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(width: 10,),
-                                              Icon(Icons.person, color: Colors.grey, ),
-                                              SizedBox(width: 10,),
-                                              Container(
-                                                width: MediaQuery.of(context).size.width/1.6,
-                                                child: TextFormField(
-                                                  validator: (val)
-                                                  {
-                                                    return val.length < 2 || val == '' || val == null ? 'Please enter a valid name' : null;
-                                                  },
-                                                  controller: name,
-                                                  style: GoogleFonts.poppins(),
-                                                  decoration: InputDecoration(
-                                                      border: InputBorder.none,
-                                                      hintText: 'Your name',
-                                                      hintStyle: GoogleFonts.poppins(
-                                                          color: Colors.grey
-                                                      )
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(height: 15,),
-                                        Container(
-                                          margin: EdgeInsets.symmetric(horizontal: 30),
-                                          width: MediaQuery.of(context).size.width/1.3,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8),
-                                              border: Border.all(color: Colors.grey)
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(width: 10,),
-                                              Icon(Icons.bloodtype, color: Colors.grey, ),
-                                              SizedBox(width: 10,),
-                                              Container(
-                                                width: MediaQuery.of(context).size.width/2,
-                                                child: DropdownButtonHideUnderline(
-                                                  child: DropdownButtonFormField<String>(
-                                                    validator: (val){
-                                                      return val == null || val == "" ?  'Please enter a value' : null;
-                                                    },
-                                                    focusColor: Colors.white,
-                                                    value: bloodGroup,
-                                                    elevation: 15,
-
-                                                    style: TextStyle(color: Colors.white),
-                                                    iconEnabledColor:Colors.grey,
-                                                    items: <String>[
-                                                      'A+',
-                                                      'A-',
-                                                      'B+',
-                                                      'B-',
-                                                      'AB+',
-                                                      'AB-',
-                                                      'O+',
-                                                      'O-',
-                                                    ].map<DropdownMenuItem<String>>((String value) {
-                                                      return DropdownMenuItem<String>(
-                                                        value: value,
-                                                        child: Text(
-                                                            value,
-                                                            style: GoogleFonts.montserrat(
-                                                              textStyle: TextStyle(color: Colors.black ),
-                                                            )),
-                                                      );
-                                                    }).toList(),
-                                                    hint: Text(
-                                                      "Blood Group",
-                                                      style: GoogleFonts.poppins(textStyle: TextStyle(
-                                                        color: Colors.grey,),
-                                                      ),),
-                                                    onChanged: (String value) {
-                                                      setState(() {
-                                                        bloodGroup = value;
-                                                        print(bloodGroup);
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-
-
-                                        SizedBox(height: 15),
-                                        Container(
-                                          margin: EdgeInsets.symmetric(horizontal: 30),
-                                          width: MediaQuery.of(context).size.width/1.3,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8),
-                                              border: Border.all(color: Colors.grey)
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(width: 10,),
-                                              Icon(Icons.person_add, color: Colors.grey, ),
-                                              SizedBox(width: 10,),
-                                              Container(
-                                                width: MediaQuery.of(context).size.width/1.6,
-                                                child: TextFormField(
-                                                  controller: age,
-                                                  validator: (val)
-                                                  {
-                                                    return val.length < 1 || val.length > 2 || val == null || val == "" ? 'Please enter a valid number' : null;
-                                                  },
-                                                  keyboardType: TextInputType.phone,
-                                                  style: GoogleFonts.poppins(),
-                                                  decoration: InputDecoration(
-                                                      border: InputBorder.none,
-                                                      hintText: 'Age',
-                                                      hintStyle: GoogleFonts.poppins(
-                                                          color: Colors.grey
-                                                      )
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-
-                                        SizedBox(height: 15),
-                                        Container(
-                                          margin: EdgeInsets.symmetric(horizontal: 30),
-                                          width: MediaQuery.of(context).size.width/1.3,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8),
-                                              border: Border.all(color: Colors.grey)
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(width: 10,),
-                                              Icon(Icons.phone, color: Colors.grey, ),
-                                              SizedBox(width: 10,),
-                                              Container(
-                                                width: MediaQuery.of(context).size.width/1.6,
-                                                child: TextFormField(
-                                                  controller: phone,
-                                                  validator: (val)
-                                                  {
-                                                    return val.length < 10 || val.length > 10 || val == null || val == "" ? 'Please enter a valid number' : null;
-                                                  },
-                                                  keyboardType: TextInputType.phone,
-                                                  style: GoogleFonts.poppins(),
-                                                  decoration: InputDecoration(
-                                                      border: InputBorder.none,
-                                                      hintText: 'Contact no.',
-                                                      hintStyle: GoogleFonts.poppins(
-                                                          color: Colors.grey
-                                                      )
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-
-                                        SizedBox(height: 15),
-                                        Container(
-                                          margin: EdgeInsets.symmetric(horizontal: 30),
-                                          width: MediaQuery.of(context).size.width/1.3,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8),
-                                              border: Border.all(color: Colors.grey)
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(width: 10,),
-                                              Icon(Icons.phone, color: Colors.grey, ),
-                                              SizedBox(width: 10,),
-                                              Container(
-                                                width: MediaQuery.of(context).size.width/1.6,
-                                                child: TextFormField(
-                                                  controller: altPhone,
-                                                  validator: (val)
-                                                  {
-                                                    return val.length < 10 || val.length > 10 || val == null || val == "" ? 'Please enter a valid number' : null;
-                                                  },
-                                                  keyboardType: TextInputType.phone,
-                                                  style: GoogleFonts.poppins(),
-                                                  decoration: InputDecoration(
-                                                      border: InputBorder.none,
-                                                      hintText: 'Alternate no.',
-                                                      hintStyle: GoogleFonts.poppins(
-                                                          color: Colors.grey
-                                                      )
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-
-                                        SizedBox(height: 15),
-                                        Container(
-                                          margin: EdgeInsets.symmetric(horizontal: 30),
-                                          width: MediaQuery.of(context).size.width/1.3,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8),
-                                              border: Border.all(color: Colors.grey)
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(width: 10,),
-                                              Icon(Icons.password, color: Colors.grey, ),
-                                              SizedBox(width: 10,),
-                                              Container(
-                                                width: MediaQuery.of(context).size.width/1.6,
-                                                child: TextFormField(
-                                                  controller: aadhar,
-                                                  validator: (val)
-                                                  {
-                                                    return val.length < 12 || val.length > 12 || val == null || val == "" ? 'Please enter a valid number' : null;
-                                                  },
-                                                  keyboardType: TextInputType.phone,
-                                                  style: GoogleFonts.poppins(),
-                                                  decoration: InputDecoration(
-                                                      border: InputBorder.none,
-                                                      hintText: 'Aadhar number',
-                                                      hintStyle: GoogleFonts.poppins(
-                                                          color: Colors.grey
-                                                      )
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-
-                                        SizedBox(height: 15),
-                                        GestureDetector(
-                                          onTap: (){
-                                            showDialog(
-                                                context: context,
-                                                builder: (_) => AlertDialog(
-                                                  title: Text('Please select one!', style: GoogleFonts.poppins(),),
-                                                  content: Container(
-                                                    height: MediaQuery.of(context).size.height/4,
-                                                    child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      children: [
-                                                       GestureDetector(
-                                                         onTap: () async{
-                                                           final XFile image = await _picker.pickImage(source: ImageSource.camera);
-                                                           if(image!=null){
-                                                             print(image.name);
-                                                             print(image.path);
-                                                             Navigator.pop(context);
-                                                             setState(() {
-                                                               imagePath = image.path;
-                                                               imageName = image.name;
-                                                             });
-                                                           }
-                                                         },
-                                                         child: Material(
-                                                           elevation: 7,
-                                                          borderRadius: BorderRadius.circular(15),
-                                                          color: Colors.white,
-                                                          child: Container(
-                                                            padding: EdgeInsets.all(10),
-                                                            height: 50,
-                                                              decoration: BoxDecoration(
-                                                                color: Colors.white,
-                                                                borderRadius: BorderRadius.circular(15),
-                                                              ),
-                                                            child: Row(
-                                                              children: [
-                                                                Icon(
-                                                                  Icons.camera_alt,
-                                                                  color: Colors.black,
-                                                                ),
-                                                                SizedBox(width: 10,),
-                                                                Text(
-                                                                  'Camera',
-                                                                  style: GoogleFonts.poppins(
-                                                                    color: Colors.black
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            ),
-                                                            ),
-                                                          ),
-                                                       ),
-                                                        SizedBox(height: 15,),
-
-                                                        GestureDetector(
-                                                          onTap: () async{
-                                                            final XFile image = await _picker.pickImage(source: ImageSource.gallery);
-                                                            if(image!=null){
-                                                              print(image.name);
-                                                              print(image.path);
-                                                              Navigator.pop(context);
-                                                              setState(() {
-                                                                imagePath = image.path;
-                                                                imageName = image.name;
-                                                              });
-                                                            }
-                                                          },
-                                                          child: Material(
-                                                            elevation: 7,
-                                                            borderRadius: BorderRadius.circular(15),
-                                                            color: Colors.white,
-                                                            child: Container(
-                                                              padding: EdgeInsets.all(10),
-
-                                                              height: 50,
-                                                              decoration: BoxDecoration(
-                                                                color: Colors.white,
-                                                                borderRadius: BorderRadius.circular(15),
-                                                              ),
-                                                              child: Row(
-                                                                children: [
-                                                                  Icon(
-                                                                    Icons.photo,
-                                                                    color: Colors.black,
-                                                                  ),
-                                                                  SizedBox(width: 10,),
-                                                                  Text(
-                                                                    'Photo',
-                                                                    style: GoogleFonts.poppins(
-                                                                        color: Colors.black
-                                                                    ),
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-
-                                                      ],
-                                                    ),
-                                                  ),
+                                          width: MediaQuery.of(context).size.width/1.6,
+                                          child: TextFormField(
+                                            validator: (val)
+                                            {
+                                              return val.length < 2 || val == '' || val == null ? 'Please enter a valid name' : null;
+                                            },
+                                            controller: name,
+                                            style: GoogleFonts.poppins(),
+                                            decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                hintText: 'Your name',
+                                                hintStyle: GoogleFonts.poppins(
+                                                    color: Colors.grey
                                                 )
-                                            );
-                                          },
-                                          child: Container(
-                                            margin: EdgeInsets.symmetric(horizontal: 30),
-                                            width: MediaQuery.of(context).size.width/1.3,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(8),
-                                                border: Border.all(color: Colors.grey)
                                             ),
-                                            child: Row(
-                                              children: [
-                                                SizedBox(width: 10,),
-                                                Icon(Icons.photo, color: Colors.grey, ),
-                                                SizedBox(width: 10,),
-                                                Container(
-                                                  padding: EdgeInsets.symmetric(vertical: 15),
-                                                  width: MediaQuery.of(context).size.width/1.6,
-                                                  child: imagePath == '' ? Text(
-                                                      'Your picture (optional)',
-                                                      style: GoogleFonts.poppins(
-                                                          color: Colors.grey
-                                                      )
-                                                  ) : Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                          'Image Added!',
-                                                          style: GoogleFonts.poppins(
-                                                              color: Colors.black
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 15,),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 30),
+                                    width: MediaQuery.of(context).size.width/1.3,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(color: Colors.grey)
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 10,),
+                                        Icon(Icons.bloodtype, color: Colors.grey, ),
+                                        SizedBox(width: 10,),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width/2,
+                                          child: DropdownButtonHideUnderline(
+                                            child: DropdownButtonFormField<String>(
+                                              validator: (val){
+                                                return val == null || val == "" ?  'Please enter a value' : null;
+                                              },
+                                              focusColor: Colors.white,
+                                              value: bloodGroup,
+                                              elevation: 15,
+
+                                              style: TextStyle(color: Colors.white),
+                                              iconEnabledColor:Colors.grey,
+                                              items: <String>[
+                                                'A+',
+                                                'A-',
+                                                'B+',
+                                                'B-',
+                                                'AB+',
+                                                'AB-',
+                                                'O+',
+                                                'O-',
+                                              ].map<DropdownMenuItem<String>>((String value) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Text(
+                                                      value,
+                                                      style: GoogleFonts.montserrat(
+                                                        textStyle: TextStyle(color: Colors.black ),
+                                                      )),
+                                                );
+                                              }).toList(),
+                                              hint: Text(
+                                                "Blood Group",
+                                                style: GoogleFonts.poppins(textStyle: TextStyle(
+                                                  color: Colors.grey,),
+                                                ),),
+                                              onChanged: (String value) {
+                                                setState(() {
+                                                  bloodGroup = value;
+                                                  print(bloodGroup);
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+
+                                  SizedBox(height: 15),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 30),
+                                    width: MediaQuery.of(context).size.width/1.3,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(color: Colors.grey)
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 10,),
+                                        Icon(Icons.person_add, color: Colors.grey, ),
+                                        SizedBox(width: 10,),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width/1.6,
+                                          child: TextFormField(
+                                            controller: age,
+                                            validator: (val)
+                                            {
+                                              return val.length < 1 || val.length > 2 || val == null || val == "" ? 'Please enter a valid number' : null;
+                                            },
+                                            keyboardType: TextInputType.phone,
+                                            style: GoogleFonts.poppins(),
+                                            decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                hintText: 'Age',
+                                                hintStyle: GoogleFonts.poppins(
+                                                    color: Colors.grey
+                                                )
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 15),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 30),
+                                    width: MediaQuery.of(context).size.width/1.3,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(color: Colors.grey)
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 10,),
+                                        Icon(Icons.phone, color: Colors.grey, ),
+                                        SizedBox(width: 10,),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width/1.6,
+                                          child: TextFormField(
+                                            controller: phone,
+                                            validator: (val)
+                                            {
+                                              return val.length < 10 || val.length > 10 || val == null || val == "" ? 'Please enter a valid number' : null;
+                                            },
+                                            keyboardType: TextInputType.phone,
+                                            style: GoogleFonts.poppins(),
+                                            decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                hintText: 'Contact no.',
+                                                hintStyle: GoogleFonts.poppins(
+                                                    color: Colors.grey
+                                                )
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 15),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 30),
+                                    width: MediaQuery.of(context).size.width/1.3,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(color: Colors.grey)
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 10,),
+                                        Icon(Icons.phone, color: Colors.grey, ),
+                                        SizedBox(width: 10,),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width/1.6,
+                                          child: TextFormField(
+                                            controller: altPhone,
+                                            validator: (val)
+                                            {
+                                              return val.length < 10 || val.length > 10 || val == null || val == "" ? 'Please enter a valid number' : null;
+                                            },
+                                            keyboardType: TextInputType.phone,
+                                            style: GoogleFonts.poppins(),
+                                            decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                hintText: 'Alternate no.',
+                                                hintStyle: GoogleFonts.poppins(
+                                                    color: Colors.grey
+                                                )
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 15),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 30),
+                                    width: MediaQuery.of(context).size.width/1.3,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(color: Colors.grey)
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 10,),
+                                        Icon(Icons.password, color: Colors.grey, ),
+                                        SizedBox(width: 10,),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width/1.6,
+                                          child: TextFormField(
+                                            controller: aadhar,
+                                            validator: (val)
+                                            {
+                                              return val.length < 12 || val.length > 12 || val == null || val == "" ? 'Please enter a valid number' : null;
+                                            },
+                                            keyboardType: TextInputType.phone,
+                                            style: GoogleFonts.poppins(),
+                                            decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                hintText: 'Aadhar number',
+                                                hintStyle: GoogleFonts.poppins(
+                                                    color: Colors.grey
+                                                )
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 15),
+                                  GestureDetector(
+                                    onTap: (){
+                                      showDialog(
+                                          context: context,
+                                          builder: (_) => AlertDialog(
+                                            title: Text('Please select one!', style: GoogleFonts.poppins(),),
+                                            content: Container(
+                                              height: MediaQuery.of(context).size.height/4,
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                 GestureDetector(
+                                                   onTap: () async{
+                                                     final XFile image = await _picker.pickImage(source: ImageSource.camera);
+                                                     if(image!=null){
+                                                       print(image.name);
+                                                       print(image.path);
+                                                       Navigator.pop(context);
+                                                       setState(() {
+                                                         imagePath = image.path;
+                                                         imageName = image.name;
+                                                       });
+                                                     }
+                                                   },
+                                                   child: Material(
+                                                     elevation: 7,
+                                                    borderRadius: BorderRadius.circular(15),
+                                                    color: Colors.white,
+                                                    child: Container(
+                                                      padding: EdgeInsets.all(10),
+                                                      height: 50,
+                                                        decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius: BorderRadius.circular(15),
+                                                        ),
+                                                      child: Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons.camera_alt,
+                                                            color: Colors.black,
                                                           ),
+                                                          SizedBox(width: 10,),
+                                                          Text(
+                                                            'Camera',
+                                                            style: GoogleFonts.poppins(
+                                                              color: Colors.black
+                                                            ),
+                                                          )
+                                                        ],
                                                       ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(right: 10),
+                                                      ),
+                                                    ),
+                                                 ),
+                                                  SizedBox(height: 15,),
+
+                                                  GestureDetector(
+                                                    onTap: () async{
+                                                      final XFile image = await _picker.pickImage(source: ImageSource.gallery);
+                                                      if(image!=null){
+                                                        print(image.name);
+                                                        print(image.path);
+                                                        Navigator.pop(context);
+                                                        setState(() {
+                                                          imagePath = image.path;
+                                                          imageName = image.name;
+                                                        });
+                                                      }
+                                                    },
+                                                    child: Material(
+                                                      elevation: 7,
+                                                      borderRadius: BorderRadius.circular(15),
+                                                      color: Colors.white,
+                                                      child: Container(
+                                                        padding: EdgeInsets.all(10),
+
+                                                        height: 50,
+                                                        decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius: BorderRadius.circular(15),
+                                                        ),
                                                         child: Row(
                                                           children: [
-                                                            SizedBox(width: 10,),
-                                                            GestureDetector(
-                                                              onTap: () {
-                                                                Navigator.push(context, MaterialPageRoute(builder: (context) => ImageView(path: imagePath)));
-                                                              },
-                                                                child: Icon(Icons.remove_red_eye, color: Colors.black)
+                                                            Icon(
+                                                              Icons.photo,
+                                                              color: Colors.black,
                                                             ),
                                                             SizedBox(width: 10,),
-                                                            GestureDetector(onTap: () {
-                                                              setState(() {
-                                                                imagePath = '';
-                                                              });
-                                                            },
-                                                                child: Icon(Icons.clear, color: Colors.black)
+                                                            Text(
+                                                              'Photo',
+                                                              style: GoogleFonts.poppins(
+                                                                  color: Colors.black
+                                                              ),
                                                             )
                                                           ],
                                                         ),
+                                                      ),
+                                                    ),
+                                                  ),
+
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                      );
+                                    },
+                                    child: Container(
+                                      margin: EdgeInsets.symmetric(horizontal: 30),
+                                      width: MediaQuery.of(context).size.width/1.3,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(color: Colors.grey)
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          SizedBox(width: 10,),
+                                          Icon(Icons.photo, color: Colors.grey, ),
+                                          SizedBox(width: 10,),
+                                          Container(
+                                            padding: EdgeInsets.symmetric(vertical: 15),
+                                            width: MediaQuery.of(context).size.width/1.6,
+                                            child: imagePath == '' ? Text(
+                                                'Your picture (optional)',
+                                                style: GoogleFonts.poppins(
+                                                    color: Colors.grey
+                                                )
+                                            ) : Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                    'Image Added!',
+                                                    style: GoogleFonts.poppins(
+                                                        color: Colors.black
+                                                    ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right: 10),
+                                                  child: Row(
+                                                    children: [
+                                                      SizedBox(width: 10,),
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => ImageView(path: imagePath)));
+                                                        },
+                                                          child: Icon(Icons.remove_red_eye, color: Colors.black)
+                                                      ),
+                                                      SizedBox(width: 10,),
+                                                      GestureDetector(onTap: () {
+                                                        setState(() {
+                                                          imagePath = '';
+                                                        });
+                                                      },
+                                                          child: Icon(Icons.clear, color: Colors.black)
                                                       )
                                                     ],
-                                                  )
-                                                ),
+                                                  ),
+                                                )
                                               ],
-                                            ),
+                                            )
                                           ),
-                                        ),
-
-                                        SizedBox(height: 15,),
-                                        Container(
-                                          margin: EdgeInsets.symmetric(horizontal: 30),
-                                          width: MediaQuery.of(context).size.width/1.3,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8),
-                                              border: Border.all(color: Colors.grey)
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(width: 10,),
-                                              Icon(Icons.home, color: Colors.grey, ),
-                                              SizedBox(width: 10,),
-                                              Container(
-                                                width: MediaQuery.of(context).size.width/2,
-                                                child: DropdownButtonHideUnderline(
-                                                  child: DropdownButtonFormField<String>(
-                                                    validator: (val){
-                                                      return val == null || val == "" ?  'Please enter a value' : null;
-                                                    },
-                                                    focusColor: Colors.white,
-                                                    value: _state,
-                                                    elevation: 15,
-
-                                                    style: TextStyle(color: Colors.white),
-                                                    iconEnabledColor:Colors.grey,
-                                                    items: <String>[
-                                                      'Punjab',
-                                                    ].map<DropdownMenuItem<String>>((String value) {
-                                                      return DropdownMenuItem<String>(
-                                                        value: value,
-                                                        child: Text(
-                                                            value,
-                                                            style: GoogleFonts.montserrat(
-                                                              textStyle: TextStyle(color: Colors.black ),
-                                                            )),
-                                                      );
-                                                    }).toList(),
-                                                    hint: Text(
-                                                      "State",
-                                                      style: GoogleFonts.poppins(textStyle: TextStyle(
-                                                        color: Colors.grey,),
-                                                      ),),
-                                                    onChanged: (String value) {
-                                                      setState(() {
-                                                        _state = value;
-                                                        print(_state);
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-
-
-                                        SizedBox(height: 15,),
-                                        Container(
-                                          margin: EdgeInsets.symmetric(horizontal: 30),
-                                          width: MediaQuery.of(context).size.width/1.3,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8),
-                                              border: Border.all(color: Colors.grey)
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(width: 10,),
-                                              Icon(Icons.home, color: Colors.grey, ),
-                                              SizedBox(width: 10,),
-                                              Container(
-                                                width: MediaQuery.of(context).size.width/2,
-                                                child: DropdownButtonHideUnderline(
-                                                  child: DropdownButtonFormField<String>(
-                                                    validator: (val){
-                                                      return val == null || val == "" ?  'Please enter a value' : null;
-                                                    },
-                                                    focusColor: Colors.white,
-                                                    value: _district,
-                                                    elevation: 15,
-                                                    style: TextStyle(color: Colors.white),
-                                                    iconEnabledColor:Colors.grey,
-                                                    items: <String>[
-                                                      'Amritsar',
-                                                      'Barnala',
-                                                      'Bathinda',
-                                                      'Faridkot',
-                                                      'Fatehgarh Sahib',
-                                                      'Firozpur',
-                                                      'Fazilka',
-                                                      'Gurdaspur',
-                                                      'Hoshiarpur',
-                                                      'Jalandhar',
-                                                      'Kapurthala',
-                                                      'Ludhiana',
-                                                      'Malerkotla',
-                                                      'Mansa',
-                                                      'Moga',
-                                                      'Muktsar',
-                                                      'Nawanshahr',
-                                                      'Pathankot',
-                                                      'Patiala',
-                                                      'Rupnagar',
-                                                      'Mohali',
-                                                      'Tarn Taran',
-                                                    ].map<DropdownMenuItem<String>>((String value) {
-                                                      return DropdownMenuItem<String>(
-                                                        value: value,
-                                                        child: Text(
-                                                            value,
-                                                            style: GoogleFonts.montserrat(
-                                                              textStyle: TextStyle(color: Colors.black ),
-                                                            )),
-                                                      );
-                                                    }).toList(),
-                                                    hint: Text(
-                                                      "District",
-                                                      style: GoogleFonts.poppins(textStyle: TextStyle(
-                                                        color: Colors.grey,),
-                                                      ),),
-                                                    onChanged: (String value) {
-                                                      city(value);
-                                                      setState(() {
-                                                        _city = null;
-                                                        _district = value;
-                                                        print(_district);
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(height: 15,),
-
-                                        Container(
-                                          margin: EdgeInsets.symmetric(horizontal: 30),
-                                          width: MediaQuery.of(context).size.width/1.3,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8),
-                                              border: Border.all(color: Colors.grey)
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(width: 10,),
-                                              Icon(Icons.home, color: Colors.grey, ),
-                                              SizedBox(width: 10,),
-                                              Container(
-                                                width: MediaQuery.of(context).size.width/1.8,
-                                                child: DropdownButtonHideUnderline(
-                                                  child: DropdownButtonFormField<String>(
-                                                    validator: (val){
-                                                      return val == null || val == "" ?  'Please enter a value' : null;
-                                                    },
-                                                    focusColor: Colors.white,
-                                                    value: _city,
-                                                    elevation: 15,
-                                                    style: TextStyle(color: Colors.white),
-                                                    iconEnabledColor:Colors.grey,
-                                                    items: districtList.map<DropdownMenuItem<String>>((String value) {
-                                                      return DropdownMenuItem<String>(
-                                                        value: value,
-                                                        child: Text(
-                                                            value,
-                                                            style: GoogleFonts.montserrat(
-                                                              textStyle: TextStyle(color: Colors.black ),
-                                                            )),
-                                                      );
-                                                    }).toList(),
-                                                    hint: Text(
-                                                      "City",
-                                                      style: GoogleFonts.poppins(textStyle: TextStyle(
-                                                        color: Colors.grey,),
-                                                      ),),
-                                                    onChanged: (String value) {
-                                                      setState(() {
-                                                        _city = value;
-                                                        print(_city);
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-
-                                        SizedBox(height: 20,),
-                                        SingleChildScrollView(
-                                          child: InkWell(
-                                            onTap: ()
-                                            {
-                                              sendRequest();
-                                            },
-                                            child: Container(
-                                              margin: EdgeInsets.symmetric(horizontal: 100),
-                                              padding: EdgeInsets.symmetric(vertical: 7, horizontal: 25),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(color: Colors.deepPurpleAccent, width: 2),
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.circular(4),
-                                              ),
-                                              child: Align(
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  'SUBMIT',
-                                                  style: GoogleFonts.poppins(
-                                                      fontSize: 20,
-                                                      color: Colors.deepPurpleAccent
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-
-
-                                      ]
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
+
+                                  SizedBox(height: 15,),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 30),
+                                    width: MediaQuery.of(context).size.width/1.3,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(color: Colors.grey)
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 10,),
+                                        Icon(Icons.home, color: Colors.grey, ),
+                                        SizedBox(width: 10,),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width/2,
+                                          child: DropdownButtonHideUnderline(
+                                            child: DropdownButtonFormField<String>(
+                                              validator: (val){
+                                                return val == null || val == "" ?  'Please enter a value' : null;
+                                              },
+                                              focusColor: Colors.white,
+                                              value: _state,
+                                              elevation: 15,
+
+                                              style: TextStyle(color: Colors.white),
+                                              iconEnabledColor:Colors.grey,
+                                              items: <String>[
+                                                'Punjab',
+                                              ].map<DropdownMenuItem<String>>((String value) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Text(
+                                                      value,
+                                                      style: GoogleFonts.montserrat(
+                                                        textStyle: TextStyle(color: Colors.black ),
+                                                      )),
+                                                );
+                                              }).toList(),
+                                              hint: Text(
+                                                "State",
+                                                style: GoogleFonts.poppins(textStyle: TextStyle(
+                                                  color: Colors.grey,),
+                                                ),),
+                                              onChanged: (String value) {
+                                                setState(() {
+                                                  _state = value;
+                                                  print(_state);
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+
+                                  SizedBox(height: 15,),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 30),
+                                    width: MediaQuery.of(context).size.width/1.3,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(color: Colors.grey)
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 10,),
+                                        Icon(Icons.home, color: Colors.grey, ),
+                                        SizedBox(width: 10,),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width/2,
+                                          child: DropdownButtonHideUnderline(
+                                            child: DropdownButtonFormField<String>(
+                                              validator: (val){
+                                                return val == null || val == "" ?  'Please enter a value' : null;
+                                              },
+                                              focusColor: Colors.white,
+                                              value: _district,
+                                              elevation: 15,
+                                              style: TextStyle(color: Colors.white),
+                                              iconEnabledColor:Colors.grey,
+                                              items: <String>[
+                                                'Amritsar',
+                                                'Barnala',
+                                                'Bathinda',
+                                                'Faridkot',
+                                                'Fatehgarh Sahib',
+                                                'Firozpur',
+                                                'Fazilka',
+                                                'Gurdaspur',
+                                                'Hoshiarpur',
+                                                'Jalandhar',
+                                                'Kapurthala',
+                                                'Ludhiana',
+                                                'Malerkotla',
+                                                'Mansa',
+                                                'Moga',
+                                                'Muktsar',
+                                                'Nawanshahr',
+                                                'Pathankot',
+                                                'Patiala',
+                                                'Rupnagar',
+                                                'Mohali',
+                                                'Tarn Taran',
+                                              ].map<DropdownMenuItem<String>>((String value) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Text(
+                                                      value,
+                                                      style: GoogleFonts.montserrat(
+                                                        textStyle: TextStyle(color: Colors.black ),
+                                                      )),
+                                                );
+                                              }).toList(),
+                                              hint: Text(
+                                                "District",
+                                                style: GoogleFonts.poppins(textStyle: TextStyle(
+                                                  color: Colors.grey,),
+                                                ),),
+                                              onChanged: (String value) {
+                                                city(value);
+                                                setState(() {
+                                                  _city = null;
+                                                  _district = value;
+                                                  print(_district);
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 15,),
+
+                                  Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 30),
+                                    width: MediaQuery.of(context).size.width/1.3,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(color: Colors.grey)
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 10,),
+                                        Icon(Icons.home, color: Colors.grey, ),
+                                        SizedBox(width: 10,),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width/1.8,
+                                          child: DropdownButtonHideUnderline(
+                                            child: DropdownButtonFormField<String>(
+                                              validator: (val){
+                                                return val == null || val == "" ?  'Please enter a value' : null;
+                                              },
+                                              focusColor: Colors.white,
+                                              value: _city,
+                                              elevation: 15,
+                                              style: TextStyle(color: Colors.white),
+                                              iconEnabledColor:Colors.grey,
+                                              items: districtList.map<DropdownMenuItem<String>>((String value) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Text(
+                                                      value,
+                                                      style: GoogleFonts.montserrat(
+                                                        textStyle: TextStyle(color: Colors.black ),
+                                                      )),
+                                                );
+                                              }).toList(),
+                                              hint: Text(
+                                                "City",
+                                                style: GoogleFonts.poppins(textStyle: TextStyle(
+                                                  color: Colors.grey,),
+                                                ),),
+                                              onChanged: (String value) {
+                                                setState(() {
+                                                  _city = value;
+                                                  print(_city);
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 20,),
+                                  InkWell(
+                                    onTap: ()
+                                    {
+                                      sendRequest();
+                                    },
+                                    child: Container(
+                                      margin: EdgeInsets.symmetric(horizontal: 100),
+                                      padding: EdgeInsets.symmetric(vertical: 7, horizontal: 25),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.red, width: 2),
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          'SUBMIT',
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 20,
+                                              color: Colors.red
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+
+
+                                ]
                             ),
-                          )
-                        ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+                    )
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

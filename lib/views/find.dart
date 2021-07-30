@@ -20,7 +20,7 @@ class _FindState extends State<Find> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.deepPurpleAccent[200],
+        backgroundColor: Colors.red,
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -232,7 +232,7 @@ class _FindState extends State<Find> {
                     margin: EdgeInsets.symmetric(horizontal: 100),
                     padding: EdgeInsets.symmetric(vertical: 7, horizontal: 25),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.deepPurpleAccent, width: 2),
+                      border: Border.all(color: Colors.red, width: 2),
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(4),
                     ),
@@ -242,7 +242,7 @@ class _FindState extends State<Find> {
                         'SEARCH',
                         style: GoogleFonts.poppins(
                             fontSize: 20,
-                            color: Colors.deepPurpleAccent
+                            color: Colors.red
                         ),
                       ),
                     ),

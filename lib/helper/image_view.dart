@@ -15,7 +15,7 @@ class _ImageViewState extends State<ImageView> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.deepPurpleAccent[200],
+        backgroundColor: Colors.red,
       ),
       body: InteractiveViewer(
         child: Image.file(File(widget.path)),

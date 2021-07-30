@@ -18,11 +18,11 @@ class _AdminLoginState extends State<AdminLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffold,
-      backgroundColor: Colors.deepPurpleAccent[200],
+      backgroundColor: Colors.red,
 
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.deepPurpleAccent[200],
+        backgroundColor: Colors.red,
       ),
       body: Align(
         alignment: AlignmentDirectional.bottomCenter,
@@ -187,7 +187,7 @@ class _AdminLoginState extends State<AdminLogin> {
                                     vertical: 7, horizontal: 25),
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                      color: Colors.deepPurpleAccent, width: 2),
+                                      color: Colors.red, width: 2),
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(4),
                                 ),
@@ -197,7 +197,7 @@ class _AdminLoginState extends State<AdminLogin> {
                                     'LOGIN',
                                     style: GoogleFonts.poppins(
                                         fontSize: 20,
-                                        color: Colors.deepPurpleAccent
+                                        color: Colors.red
                                     ),
                                   ),
                                 ),

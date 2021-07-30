@@ -17,10 +17,10 @@ class _PendingNgoRequestState extends State<PendingNgoRequest> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffold,
-      backgroundColor: Colors.deepPurpleAccent[200],
+      backgroundColor: Colors.red,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.deepPurpleAccent[200],
+        backgroundColor: Colors.red,
       ),
       body: Align(
         alignment: AlignmentDirectional.bottomCenter,

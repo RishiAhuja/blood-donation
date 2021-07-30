@@ -1,10 +1,12 @@
 import 'package:blood/ngo/ngo_login.dart';
+import 'package:blood/views/about.dart';
 import 'package:blood/views/donate.dart';
 import 'package:blood/views/find.dart';
 import 'package:blood/views/request.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sizer/sizer.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -15,44 +17,94 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurpleAccent[200],
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.deepPurpleAccent[200],
+      backgroundColor: Colors.red,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(30),
+        child: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.red,
+        ),
       ),
       body: Align(
         alignment: AlignmentDirectional.bottomCenter,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Welcome to Real Heroes!',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
-                fontSize: 25,
-                color: Colors.white,
-                fontWeight: FontWeight.bold
+          children: [            
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Blood',
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontSize: 30.sp
+                    ),
+                  ),
+                  SizedBox(width: 5,),
+                  Text(
+                    '4',
+                    style: GoogleFonts.poppins(
+                      color: Colors.black,
+                      fontSize: 45.sp,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w600,
+                      shadows: <Shadow>[
+                                  Shadow(
+                                    offset: Offset(1.0, 1.0),
+                                    blurRadius: 1.0,
+                                    color: Colors.black,
+                                  ),
+                                  Shadow(
+                                    offset: Offset(2.0, 2.0),
+                                    blurRadius: 1.0,
+                                    color: Colors.white,
+                                  ),
+                                ],
+                    ),
+                  ),
+                  SizedBox(width: 5,),
+                  Text(
+                    'Life',
+                    style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 30.sp
+                    ),
+
+                  ),
+                  Opacity(
+                    opacity: 0,
+                    child: Text(
+                      'x',
+                      style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: 20.sp
+                      ),
+
+                    ),
+                  ),
+                ],
               ),
-            ),
-            SizedBox(height: 28,),
+            ),            
+            SizedBox(height: 5,),
             Material(
               color: Colors.white,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+              borderRadius: BorderRadius.circular(10),
               elevation: 15,
               child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height/1.25,
+                width: MediaQuery.of(context).size.width/1.15,
+                height: MediaQuery.of(context).size.height/1.5,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(30))
+                  borderRadius: BorderRadius.circular(30)
                 ),
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        SizedBox(height: 38,),
+                        SizedBox(height: 19,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -62,23 +114,40 @@ class _HomeState extends State<Home> {
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => Request()));
                                 },
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width/2.3,
-                                  height: 160,
+
+                                  width: MediaQuery.of(context).size.width/2.6,
+                                  height: 19.h,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: Colors.deepPurpleAccent[200]
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(color: Colors.black),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        blurRadius: 2.5,
+                                        offset: Offset(4, 8), // Shadow position
+                                      ),
+                                    ],
                                   ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Image.asset('assets/phone-survey.png', height: 95, width: 95,),
+                                      Image.asset('assets/phone-survey.png', height: 9.h, width: 9.h,),
                                       SizedBox(height: 10,),
                                       Text(
-                                        'Request Blood',
+                                        'Request for',
                                         style: GoogleFonts.poppins(
-                                          fontSize: 18,
-                                          color: Colors.white,
+                                          fontSize: 15.sp,
+                                          color: Colors.black,
                                           fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                      Text(
+                                        'Blood',
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 13.sp,
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold
                                         ),
                                       )
                                     ],
@@ -93,22 +162,38 @@ class _HomeState extends State<Home> {
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => Donate()));
                                 },
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width/2.3,
-                                  height: 160,
+                                  width: MediaQuery.of(context).size.width/2.6,
+                                  height: 19.h,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4),
-                                      color: Colors.deepPurpleAccent[200]
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(color: Colors.black),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        blurRadius: 2.5,
+                                        offset: Offset(4, 8), // Shadow position
+                                      ),
+                                    ],
                                   ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Image.asset('assets/blood.png', height: 95, width: 95,),
+                                      Image.asset('assets/blood.png', height: 9.h, width: 9.h,),
                                       SizedBox(height: 10,),
                                       Text(
-                                        'Donate Blood',
+                                        'Register as',
                                         style: GoogleFonts.poppins(
-                                            fontSize: 18,
-                                            color: Colors.white,
+                                            fontSize: 15.sp,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                      Text(
+                                        'Donor',
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 13.sp,
+                                            color: Colors.red,
                                             fontWeight: FontWeight.bold
                                         ),
                                       )
@@ -120,29 +205,45 @@ class _HomeState extends State<Home> {
                           ],
                         ),
 
-                        SizedBox(height: 20,),
+                        SizedBox(height: 19,),
 
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Flexible(
                               child: Container(
-                                width: MediaQuery.of(context).size.width/2.3,
-                                height: 160,
+                                width: MediaQuery.of(context).size.width/2.6,
+                                height: 19.h,
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: Colors.deepPurpleAccent[200]
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(color: Colors.black),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey,
+                                      blurRadius: 2.5,
+                                      offset: Offset(4, 8), // Shadow position
+                                    ),
+                                  ],
                                 ),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Image.asset('assets/blood-bank.png', height: 95, width: 95,),
+                                    Image.asset('assets/blood-bank.png', height: 9.h, width: 9.h,),
                                     SizedBox(height: 10,),
                                     Text(
-                                      'Blood Bank',
+                                      'Blood',
                                       style: GoogleFonts.poppins(
-                                          fontSize: 18,
-                                          color: Colors.white,
+                                          fontSize: 15.sp,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                    Text(
+                                      'Banks',
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 13.sp,
+                                          color: Colors.red,
                                           fontWeight: FontWeight.bold
                                       ),
                                     )
@@ -151,64 +252,96 @@ class _HomeState extends State<Home> {
                               ),
                             ),
 
-                            Flexible(
-                              child: InkWell(
-                                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NgoLogin())),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width/2.3,
-                                  height: 160,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4),
-                                      color: Colors.deepPurpleAccent[200]
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset('assets/locksmith.png', height: 95, width: 95,),
-                                      SizedBox(height: 10,),
-                                      Text(
-                                        'Login',
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 18,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-
-
-
-                        SizedBox(height: 20,),
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
                             Flexible(
                               child: InkWell(
                                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Find())),
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width/2.3,
-                                  height: 160,
+                                  width: MediaQuery.of(context).size.width/2.6,
+                                  height: 19.h,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4),
-                                      color: Colors.deepPurpleAccent[200]
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(color: Colors.black),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        blurRadius: 2.5,
+                                        offset: Offset(4, 8), // Shadow position
+                                      ),
+                                    ],
                                   ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Image.asset('assets/shelter.png', height: 95, width: 95,),
+                                      Image.asset('assets/locksmith.png', height: 9.h, width: 9.h,),
+                                      SizedBox(height: 10,),
+                                      Text(
+                                        'NGOs &',
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 15.sp,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                      Text(
+                                        'organizations',
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 13.sp,
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+
+
+
+                        SizedBox(height: 19,),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Flexible(
+                              child: InkWell(
+                                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NgoLogin())),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width/2.6,
+                                  height: 19.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(color: Colors.black),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        blurRadius: 2.5,
+                                        offset: Offset(4, 8), // Shadow position
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset('assets/shelter.png', height: 9.h, width: 9.h,),
                                       SizedBox(height: 10,),
                                       Text(
                                         'NGOs',
                                         style: GoogleFonts.poppins(
-                                            fontSize: 18,
-                                            color: Colors.white,
+                                            fontSize: 15.sp,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                      Text(
+                                        'Login',
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 13.sp,
+                                            color: Colors.red,
                                             fontWeight: FontWeight.bold
                                         ),
                                       )
@@ -219,27 +352,46 @@ class _HomeState extends State<Home> {
                             ),
 
                             Flexible(
-                              child: Container(
-                                width: MediaQuery.of(context).size.width/2.3,
-                                height: 160,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: Colors.deepPurpleAccent[200]
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset('assets/information.png', height: 95, width: 95,),
-                                    SizedBox(height: 10,),
-                                    Text(
-                                      'About',
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold
+                              child: InkWell(
+                                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => About())),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width/2.6,
+                                  height: 19.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(color: Colors.black),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        blurRadius: 2.5,
+                                        offset: Offset(4, 8), // Shadow position
                                       ),
-                                    )
-                                  ],
+                                    ],
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset('assets/information.png', height: 9.h, width: 9.h,),
+                                      SizedBox(height: 10,),
+                                      Text(
+                                        'About',
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 15.sp,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                      Text(
+                                        'US',
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 13.sp,
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             )
@@ -253,6 +405,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
+            SizedBox(height: 30,)
           ],
         ),
       ),

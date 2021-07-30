@@ -282,7 +282,7 @@ class _EditNgoDataState extends State<EditNgoData> {
                 padding: EdgeInsets.symmetric(vertical: 7, horizontal: 25),
                 width: MediaQuery.of(context).size.width/1.4,
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.deepPurpleAccent, width: 2),
+                  border: Border.all(color: Colors.red, width: 2),
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(4),
                 ),
@@ -292,7 +292,7 @@ class _EditNgoDataState extends State<EditNgoData> {
                     'Save Changes',
                     style: GoogleFonts.poppins(
                         fontSize: 20,
-                        color: Colors.deepPurpleAccent
+                        color: Colors.red
                     ),
                   ),
                 ),

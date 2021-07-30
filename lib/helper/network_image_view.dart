@@ -14,7 +14,7 @@ class _NetworkImageViewState extends State<NetworkImageView> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.deepPurpleAccent[200],
+        backgroundColor: Colors.red,
       ),
       body: InteractiveViewer(
         child: CachedNetworkImage(

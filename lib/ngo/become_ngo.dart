@@ -60,10 +60,10 @@ class _BecomeNgoState extends State<BecomeNgo> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffold,
-      backgroundColor: Colors.deepPurpleAccent[200],
+      backgroundColor: Colors.red,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.deepPurpleAccent[200],
+        backgroundColor: Colors.red,
       ),
       body: Align(
         alignment: Alignment.bottomCenter,
@@ -466,7 +466,7 @@ class _BecomeNgoState extends State<BecomeNgo> {
                                           margin: EdgeInsets.symmetric(horizontal: 100),
                                           padding: EdgeInsets.symmetric(vertical: 7, horizontal: 25),
                                           decoration: BoxDecoration(
-                                            border: Border.all(color: Colors.deepPurpleAccent, width: 2),
+                                            border: Border.all(color: Colors.red, width: 2),
                                             color: Colors.white,
                                             borderRadius: BorderRadius.circular(4),
                                           ),
@@ -476,7 +476,7 @@ class _BecomeNgoState extends State<BecomeNgo> {
                                               'SUBMIT',
                                               style: GoogleFonts.poppins(
                                                   fontSize: 20,
-                                                  color: Colors.deepPurpleAccent
+                                                  color: Colors.red
                                               ),
                                             ),
                                           ),

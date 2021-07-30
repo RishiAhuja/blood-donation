@@ -58,10 +58,10 @@ class _ApproveNgoRequestState extends State<ApproveNgoRequest> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffold,
-      backgroundColor: Colors.deepPurpleAccent[200],
+      backgroundColor: Colors.red,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.deepPurpleAccent[200],
+        backgroundColor: Colors.red,
       ),
       body: Align(
         alignment: AlignmentDirectional.bottomCenter,
@@ -183,7 +183,7 @@ class _ApproveNgoRequestState extends State<ApproveNgoRequest> {
                                 margin: EdgeInsets.symmetric(horizontal: 100),
                                 padding: EdgeInsets.symmetric(vertical: 7, horizontal: 25),
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.deepPurpleAccent, width: 2),
+                                  border: Border.all(color: Colors.red, width: 2),
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(4),
                                 ),
@@ -193,7 +193,7 @@ class _ApproveNgoRequestState extends State<ApproveNgoRequest> {
                                     'ADD',
                                     style: GoogleFonts.poppins(
                                         fontSize: 20,
-                                        color: Colors.deepPurpleAccent
+                                        color: Colors.red
                                     ),
                                   ),
                                 ),

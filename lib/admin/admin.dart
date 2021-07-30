@@ -30,10 +30,10 @@ class _AdminState extends State<Admin> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffold,
-      backgroundColor: Colors.deepPurpleAccent[200],
+      backgroundColor: Colors.red,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.deepPurpleAccent[200],
+        backgroundColor: Colors.red,
         actions: [
           IconButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddNewNgo()));}, icon: Icon(Icons.add, color: Colors.white))
         ],
@@ -108,7 +108,7 @@ class _AdminState extends State<Admin> {
                           margin: EdgeInsets.symmetric(vertical: 4, horizontal: 20),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.deepPurpleAccent)
+                            border: Border.all(color: Colors.red)
                           ),
                           child: ListTile(
                             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AdminPendingRequest())),
@@ -127,7 +127,7 @@ class _AdminState extends State<Admin> {
                           margin: EdgeInsets.symmetric(vertical: 4, horizontal: 20),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Colors.deepPurpleAccent)
+                              border: Border.all(color: Colors.red)
                           ),
                           child: ListTile(
                             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ApprovedRequest())),
@@ -146,7 +146,7 @@ class _AdminState extends State<Admin> {
                           margin: EdgeInsets.symmetric(vertical: 4, horizontal: 20),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Colors.deepPurpleAccent)
+                              border: Border.all(color: Colors.red)
                           ),
                           child: ListTile(
                             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AdminDonationRequest())),
@@ -166,7 +166,7 @@ class _AdminState extends State<Admin> {
                           margin: EdgeInsets.symmetric(vertical: 4, horizontal: 20),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Colors.deepPurpleAccent)
+                              border: Border.all(color: Colors.red)
                           ),
                           child: ListTile(
                             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AdminApprovedDonation())),
@@ -186,7 +186,7 @@ class _AdminState extends State<Admin> {
                           margin: EdgeInsets.symmetric(vertical: 4, horizontal: 20),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Colors.deepPurpleAccent)
+                              border: Border.all(color: Colors.red)
                           ),
                           child: ListTile(
                             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PendingNgoRequest())),
@@ -204,7 +204,7 @@ class _AdminState extends State<Admin> {
                           margin: EdgeInsets.symmetric(vertical: 4, horizontal: 20),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Colors.deepPurpleAccent)
+                              border: Border.all(color: Colors.red)
                           ),
                           child: ListTile(
                             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AdminApprovedNgo())),

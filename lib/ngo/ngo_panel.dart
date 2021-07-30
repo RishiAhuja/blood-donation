@@ -2,6 +2,7 @@ import 'package:blood/ngo/donation_pending.dart';
 import 'package:blood/views/donate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -24,6 +25,7 @@ class _PendingState extends State<Pending> {
       print("completed");
       setState(() {});
     });
+    FirebaseMessaging.instance.subscribeToTopic('ngo').then((value){print("subbed!");} );
   }
   @override
   Widget build(BuildContext context) {
@@ -35,10 +37,10 @@ class _PendingState extends State<Pending> {
         },
         child: Icon(Icons.event_available),
       ),
-      backgroundColor: Colors.deepPurpleAccent[200],
+      backgroundColor: Colors.red,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.deepPurpleAccent[200],
+        backgroundColor: Colors.red,
       ),
       body: Align(
         alignment: Alignment.bottomCenter,
@@ -148,8 +150,8 @@ class _PendingState extends State<Pending> {
                                       decoration: BoxDecoration(
                                         gradient: LinearGradient(
                                           colors: [
-                                            Colors.deepPurpleAccent[100],
-                                            Colors.deepPurpleAccent[200]
+                                            Colors.red[400],
+                                            Colors.red
                                           ]
                                         ),
                                         borderRadius: BorderRadius.circular(5),
@@ -346,7 +348,7 @@ class _PendingState extends State<Pending> {
                                                             padding: EdgeInsets.symmetric(vertical: 7, horizontal: 25),
                                                             width: MediaQuery.of(context).size.width/1.4,
                                                             decoration: BoxDecoration(
-                                                              border: Border.all(color: Colors.deepPurpleAccent, width: 2),
+                                                              border: Border.all(color: Colors.red, width: 2),
                                                               color: Colors.white,
                                                               borderRadius: BorderRadius.circular(4),
                                                             ),
@@ -356,7 +358,7 @@ class _PendingState extends State<Pending> {
                                                                 'Mark as Approved',
                                                                 style: GoogleFonts.poppins(
                                                                     fontSize: 20,
-                                                                    color: Colors.deepPurpleAccent
+                                                                    color: Colors.red
                                                                 ),
                                                               ),
                                                             ),

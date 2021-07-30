@@ -22,10 +22,10 @@ class _DonatePendingState extends State<DonatePending> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffold,
-      backgroundColor: Colors.deepPurpleAccent[200],
+      backgroundColor: Colors.red,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.deepPurpleAccent[200],
+        backgroundColor: Colors.red,
       ),
       body: Align(
         alignment: AlignmentDirectional.bottomCenter,
@@ -304,7 +304,7 @@ class _DonatePendingState extends State<DonatePending> {
                                               padding: EdgeInsets.symmetric(vertical: 7, horizontal: 25),
                                               width: MediaQuery.of(context).size.width/1.4,
                                               decoration: BoxDecoration(
-                                                border: Border.all(color: Colors.deepPurpleAccent, width: 2),
+                                                border: Border.all(color: Colors.red, width: 2),
                                                 color: Colors.white,
                                                 borderRadius: BorderRadius.circular(4),
                                               ),
@@ -315,7 +315,7 @@ class _DonatePendingState extends State<DonatePending> {
                                                   textAlign: TextAlign.center,
                                                   style: GoogleFonts.poppins(
                                                       fontSize: 20,
-                                                      color: Colors.deepPurpleAccent
+                                                      color: Colors.red
                                                   ),
                                                 ),
                                               ),

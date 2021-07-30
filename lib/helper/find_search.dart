@@ -25,7 +25,7 @@ class _FindSearchState extends State<FindSearch> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.deepPurpleAccent[200],
+        backgroundColor: Colors.red,
       ),
       body: SingleChildScrollView(
         child: Align(

@@ -3,9 +3,11 @@ import 'package:blood/ngo/become_ngo.dart';
 import 'package:blood/ngo/ngo_panel.dart';
 import 'package:blood/helper/error_ngo_login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NgoLogin extends StatefulWidget {
   const NgoLogin({Key key}) : super(key: key);
@@ -40,8 +42,11 @@ class _NgoLoginState extends State<NgoLogin> {
               });
             }
             else{
-              snapshot.docs.forEach((result) {
+              snapshot.docs.forEach((result) async{
                 print(result.data());
+                await FirebaseMessaging.instance.subscribeToTopic('ngo').then((value){print("subbed!");} );
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setBool('isNGO', true);
                 setState(() {
                   status = 'success';
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Pending(ngoUsername: username.text.trim(),)));
@@ -61,10 +66,10 @@ class _NgoLoginState extends State<NgoLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffold,
-      backgroundColor: Colors.deepPurpleAccent[200],
+      backgroundColor: Colors.red,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.deepPurpleAccent[200],
+        backgroundColor: Colors.red,
         actions: [
           IconButton(
             icon: Icon(Icons.admin_panel_settings, color: Colors.white),
@@ -229,7 +234,7 @@ class _NgoLoginState extends State<NgoLogin> {
                                 margin: EdgeInsets.symmetric(horizontal: 100, vertical: 20),
                                 padding: EdgeInsets.symmetric(vertical: 7, horizontal: 25),
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.deepPurpleAccent, width: 2),
+                                  border: Border.all(color: Colors.red, width: 2),
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(4),
                                 ),
@@ -239,7 +244,7 @@ class _NgoLoginState extends State<NgoLogin> {
                                     'LOGIN',
                                     style: GoogleFonts.poppins(
                                         fontSize: 20,
-                                        color: Colors.deepPurpleAccent
+                                        color: Colors.red
                                     ),
                                   ),
                                 ),
