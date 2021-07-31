@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -26,6 +27,7 @@ class _RequestState extends State<Request> {
   async{
     if(_formKey.currentState.validate())
       {
+        String token = await FirebaseMessaging.instance.getToken();
         print('validated!');
         await FirebaseFirestore.instance.collection('request').add({
           'name': patient.text,
@@ -36,15 +38,16 @@ class _RequestState extends State<Request> {
           'hospital': hospital.text.toLowerCase(),
           'attendant': attendant.text,
           'number': number.text,
+          'token': token,
           'pending': true
-        })
-            .then((value) {
+        }).then((value) {
           var randomDoc = FirebaseFirestore.instance.collection("notifications").doc();
           FirebaseFirestore.instance.collection('notifications').doc('${randomDoc.id}').set({
                 'topic': 'ngo',
                 'name': '${patient.text}',
                 'blood': _chosenValue,
                 'id': randomDoc.id,
+                'token': token,
                 'sent': false
               }).then((value) {
                 _scaffold.currentState.showSnackBar(SnackBar(content: Text('Submitted Successfully', style: GoogleFonts.poppins(),),));

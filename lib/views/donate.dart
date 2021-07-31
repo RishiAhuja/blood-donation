@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:blood/helper/image_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -62,6 +63,7 @@ class _DonateState extends State<Donate> {
           setState(() {
             isUploading = true;
           });
+          String token = await FirebaseMessaging.instance.getToken();
           await firebase_storage.FirebaseStorage.instance
               .ref('donate_img/$imageName')
               .putFile(File(imagePath)).whenComplete(() async{
@@ -80,6 +82,7 @@ class _DonateState extends State<Donate> {
               'city': _city,
               'aadhar': aadhar.text,
               'image': downloadURL,
+              'token': token,
               'pending': true
             })
                 .then((value) {
@@ -87,12 +90,13 @@ class _DonateState extends State<Donate> {
                   setState(() {
                     isUploading = false;
 
-                    var randomDoc = FirebaseFirestore.instance.collection("notifications").doc();
+                    var randomDoc = FirebaseFirestore.instance.collection("pending_donation_request_notification").doc();
                     FirebaseFirestore.instance.collection('pending_donation_request_notification').doc('${randomDoc.id}').set({
                       'topic': 'ngo',
                       'name': '${name.text}',
                       'blood': bloodGroup,
                       'id': randomDoc.id,
+                      'token': token,
                       'sent': false
                     }).then((value) {
                       _scaffold.currentState.showSnackBar(SnackBar(content: Text('Submitted Successfully', style: GoogleFonts.poppins(),),));

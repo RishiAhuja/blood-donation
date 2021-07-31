@@ -1,4 +1,5 @@
 import 'package:blood/ngo/donation_pending.dart';
+import 'package:blood/ngo/donors.dart';
 import 'package:blood/views/donate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -6,17 +7,17 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Pending extends StatefulWidget {
-  final String ngoUsername;
-  Pending({this.ngoUsername});
   @override
   _PendingState createState() => _PendingState();
 }
 
 class _PendingState extends State<Pending> {
   final GlobalKey<ScaffoldState> _scaffold = GlobalKey<ScaffoldState>();
+  String ngoName = '';
   @override
   void initState() {
     // TODO: implement initState
@@ -25,17 +26,37 @@ class _PendingState extends State<Pending> {
       print("completed");
       setState(() {});
     });
+    getNgoName();
     FirebaseMessaging.instance.subscribeToTopic('ngo').then((value){print("subbed!");} );
+  }
+  getNgoName() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(prefs.getString('NGOName'));
+    setState(() {
+      ngoName = prefs.getString('NGOName');
+    });
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffold,
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => DonatePending(ngoUsername: widget.ngoUsername,)));
-        },
-        child: Icon(Icons.event_available),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Donors(ngoUsername: ngoName,)));
+            },
+            child: Icon(Icons.event_available),
+          ),
+          SizedBox(height: 10,),
+          FloatingActionButton(
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => DonatePending(ngoUsername: ngoName,)));
+            },
+            child: Icon(Icons.event_busy_sharp),
+          ),
+        ],
       ),
       backgroundColor: Colors.red,
       appBar: AppBar(
@@ -331,12 +352,22 @@ class _PendingState extends State<Pending> {
                                                         InkWell(
                                                           onTap: ()
                                                           async{
-                                                            await FirebaseFirestore.instance.collection('request').doc('${data['id']}').update({'pending': false, 'ngo': '${widget.ngoUsername}'})
+                                                            await FirebaseFirestore.instance.collection('request').doc('${data['id']}').update({'pending': false, 'ngo': '$ngoName'})
                                                             .then((value) {
-                                                              _scaffold.currentState.showSnackBar(SnackBar(content: Text('Approved Successfully', style: GoogleFonts.poppins(),),));
-                                                              Navigator.of(
-                                                                  context)
-                                                                  .pop();
+                                                              var randomDoc = FirebaseFirestore.instance.collection("approved_request_notification").doc();
+                                                              FirebaseFirestore.instance.collection("approved_request_notification").doc('${randomDoc.id}').set({
+                                                                'ngo': ngoName,
+                                                                'token': data['token'],
+                                                                'patient': data['name'],
+                                                                'sent': false,
+                                                                'id': randomDoc.id
+                                                              }).then((value) {
+                                                                _scaffold.currentState.showSnackBar(SnackBar(content: Text('Approved Successfully', style: GoogleFonts.poppins(),),));
+                                                                Navigator.of(
+                                                                    context)
+                                                                    .pop();
+                                                              });
+
                                                             })
                                                                 .catchError((error) {
                                                               print(error);

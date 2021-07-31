@@ -73,3 +73,83 @@ exports.donatePending = functions.pubsub.schedule('* * * * *').onRun(async (cont
 
     return console.log('End Of Function');
 });
+
+exports.requestApproved = functions.pubsub.schedule('* * * * *').onRun(async (context) => {
+    const query = await database.collection("approved_request_notification")
+        .where("sent", "==", false).get();
+
+    query.forEach(async snapshot => {
+    console.log(snapshot.data());
+   const payload = {
+       	token: snapshot.data().token,
+           notification: {
+               title: 'Hey ' + snapshot.data().patient + '! You will be provided blood soon',
+               body: "Congratulations! " + snapshot.data().patient + "You are Approved by !" + snapshot.data().ngo,
+
+           },
+            android: {
+                       priority: "high",
+                       notification: {
+                          'channel_id': 'blood',
+                       },
+                     },
+           data: {
+               click_action: 'FLUTTER_NOTIFICATION_CLICK'
+           }
+       };
+        admin.messaging().send(payload).then((response) => {
+                // Response is a message ID string.
+                console.log('Successfully sent message:', response);
+                admin.firestore().collection('approved_request_notification').doc(snapshot.data().id).update({"sent": true,})
+                //changeDataConfirm(snapshot.data().token);
+                return {success: true};
+            }).then(() => {
+                  response.end();
+              }).catch(error => {
+                            return console.log("Error Sending Message");
+                        });
+
+    });
+
+    return console.log('End Of Function');
+});
+
+exports.donateApproved = functions.pubsub.schedule('* * * * *').onRun(async (context) => {
+    const query = await database.collection("approved_donors_notifications")
+        .where("sent", "==", false).get();
+
+    query.forEach(async snapshot => {
+    console.log(snapshot.data());
+   const payload = {
+       	token: snapshot.data().token,
+           notification: {
+               title: 'Hey ' + snapshot.data().name + '! You request is approved',
+               body: "Congratulations! " + snapshot.data().patient + "You are Approved by !" + snapshot.data().ngo,
+
+           },
+            android: {
+                       priority: "high",
+                       notification: {
+                          'channel_id': 'blood',
+                       },
+                     },
+           data: {
+               click_action: 'FLUTTER_NOTIFICATION_CLICK'
+           }
+       };
+        admin.messaging().send(payload).then((response) => {
+                // Response is a message ID string.
+                console.log('Successfully sent message:', response);
+                admin.firestore().collection('approved_donors_notifications').doc(snapshot.data().id).update({"sent": true,})
+                //changeDataConfirm(snapshot.data().token);
+                return {success: true};
+            }).then(() => {
+                  response.end();
+              }).catch(error => {
+                            return console.log("Error Sending Message");
+                        });
+
+    });
+
+    return console.log('End Of Function');
+});

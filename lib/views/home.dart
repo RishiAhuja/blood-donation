@@ -93,8 +93,8 @@ class _HomeState extends State<Home> {
               borderRadius: BorderRadius.circular(10),
               elevation: 15,
               child: Container(
-                width: MediaQuery.of(context).size.width/1.15,
-                height: MediaQuery.of(context).size.height/1.5,
+                width: MediaQuery.of(context).size.width/1.1,
+                height: MediaQuery.of(context).size.height/1.35,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(30)
@@ -114,8 +114,7 @@ class _HomeState extends State<Home> {
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => Request()));
                                 },
                                 child: Container(
-
-                                  width: MediaQuery.of(context).size.width/2.6,
+                                  width: MediaQuery.of(context).size.width/2.5,
                                   height: 19.h,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
@@ -132,12 +131,12 @@ class _HomeState extends State<Home> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Image.asset('assets/phone-survey.png', height: 9.h, width: 9.h,),
+                                      Image.asset('assets/phone-survey.png', height: 8.45.h, width: 8.45.h,),
                                       SizedBox(height: 10,),
                                       Text(
                                         'Request for',
                                         style: GoogleFonts.poppins(
-                                          fontSize: 15.sp,
+                                          fontSize: 13.5.sp,
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold
                                         ),
@@ -145,7 +144,7 @@ class _HomeState extends State<Home> {
                                       Text(
                                         'Blood',
                                         style: GoogleFonts.poppins(
-                                            fontSize: 13.sp,
+                                            fontSize: 12.5.sp,
                                             color: Colors.red,
                                             fontWeight: FontWeight.bold
                                         ),
@@ -162,7 +161,7 @@ class _HomeState extends State<Home> {
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => Donate()));
                                 },
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width/2.6,
+                                  width: MediaQuery.of(context).size.width/2.5,
                                   height: 19.h,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
@@ -179,12 +178,12 @@ class _HomeState extends State<Home> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Image.asset('assets/blood.png', height: 9.h, width: 9.h,),
+                                      Image.asset('assets/blood.png', height: 8.45.h, width: 8.45.h,),
                                       SizedBox(height: 10,),
                                       Text(
                                         'Register as',
                                         style: GoogleFonts.poppins(
-                                            fontSize: 15.sp,
+                                            fontSize: 13.5.sp,
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold
                                         ),
@@ -192,7 +191,7 @@ class _HomeState extends State<Home> {
                                       Text(
                                         'Donor',
                                         style: GoogleFonts.poppins(
-                                            fontSize: 13.sp,
+                                            fontSize: 12.5.sp,
                                             color: Colors.red,
                                             fontWeight: FontWeight.bold
                                         ),
@@ -212,7 +211,7 @@ class _HomeState extends State<Home> {
                           children: [
                             Flexible(
                               child: Container(
-                                width: MediaQuery.of(context).size.width/2.6,
+                                width: MediaQuery.of(context).size.width/2.5,
                                 height: 19.h,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
@@ -229,12 +228,12 @@ class _HomeState extends State<Home> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Image.asset('assets/blood-bank.png', height: 9.h, width: 9.h,),
+                                    Image.asset('assets/blood-bank.png', height: 8.45.h, width: 8.45.h,),
                                     SizedBox(height: 10,),
                                     Text(
                                       'Blood',
                                       style: GoogleFonts.poppins(
-                                          fontSize: 15.sp,
+                                          fontSize: 13.5.sp,
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold
                                       ),
@@ -242,7 +241,7 @@ class _HomeState extends State<Home> {
                                     Text(
                                       'Banks',
                                       style: GoogleFonts.poppins(
-                                          fontSize: 13.sp,
+                                          fontSize: 12.5.sp,
                                           color: Colors.red,
                                           fontWeight: FontWeight.bold
                                       ),
@@ -256,7 +255,7 @@ class _HomeState extends State<Home> {
                               child: InkWell(
                                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Find())),
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width/2.6,
+                                  width: MediaQuery.of(context).size.width/2.5,
                                   height: 19.h,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
@@ -273,20 +272,20 @@ class _HomeState extends State<Home> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Image.asset('assets/locksmith.png', height: 9.h, width: 9.h,),
+                                      Image.asset('assets/locksmith.png', height: 8.45.h, width: 8.45.h,),
                                       SizedBox(height: 10,),
                                       Text(
                                         'NGOs &',
                                         style: GoogleFonts.poppins(
-                                            fontSize: 15.sp,
+                                            fontSize: 13.5.sp,
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold
                                         ),
                                       ),
                                       Text(
-                                        'organizations',
+                                        'organization',
                                         style: GoogleFonts.poppins(
-                                            fontSize: 13.sp,
+                                            fontSize: 11.7.sp,
                                             color: Colors.red,
                                             fontWeight: FontWeight.bold
                                         ),
@@ -310,7 +309,7 @@ class _HomeState extends State<Home> {
                               child: InkWell(
                                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NgoLogin())),
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width/2.6,
+                                  width: MediaQuery.of(context).size.width/2.5,
                                   height: 19.h,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
@@ -327,12 +326,12 @@ class _HomeState extends State<Home> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Image.asset('assets/shelter.png', height: 9.h, width: 9.h,),
+                                      Image.asset('assets/shelter.png', height: 8.45.h, width: 8.45.h,),
                                       SizedBox(height: 10,),
                                       Text(
                                         'NGOs',
                                         style: GoogleFonts.poppins(
-                                            fontSize: 15.sp,
+                                            fontSize: 13.5.sp,
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold
                                         ),
@@ -340,7 +339,7 @@ class _HomeState extends State<Home> {
                                       Text(
                                         'Login',
                                         style: GoogleFonts.poppins(
-                                            fontSize: 13.sp,
+                                            fontSize: 12.5.sp,
                                             color: Colors.red,
                                             fontWeight: FontWeight.bold
                                         ),
@@ -355,7 +354,7 @@ class _HomeState extends State<Home> {
                               child: InkWell(
                                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => About())),
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width/2.6,
+                                  width: MediaQuery.of(context).size.width/2.5,
                                   height: 19.h,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
@@ -372,12 +371,12 @@ class _HomeState extends State<Home> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Image.asset('assets/information.png', height: 9.h, width: 9.h,),
+                                      Image.asset('assets/information.png', height: 8.45.h, width: 8.45.h,),
                                       SizedBox(height: 10,),
                                       Text(
                                         'About',
                                         style: GoogleFonts.poppins(
-                                            fontSize: 15.sp,
+                                            fontSize: 13.5.sp,
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold
                                         ),
@@ -385,7 +384,7 @@ class _HomeState extends State<Home> {
                                       Text(
                                         'US',
                                         style: GoogleFonts.poppins(
-                                            fontSize: 13.sp,
+                                            fontSize: 12.5.sp,
                                             color: Colors.red,
                                             fontWeight: FontWeight.bold
                                         ),

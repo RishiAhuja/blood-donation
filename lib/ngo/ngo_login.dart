@@ -46,10 +46,11 @@ class _NgoLoginState extends State<NgoLogin> {
                 print(result.data());
                 await FirebaseMessaging.instance.subscribeToTopic('ngo').then((value){print("subbed!");} );
                 SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setString('NGOName', '${username.text.trim()}');
                 prefs.setBool('isNGO', true);
                 setState(() {
                   status = 'success';
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Pending(ngoUsername: username.text.trim(),)));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Pending()));
                 });
               });
             }

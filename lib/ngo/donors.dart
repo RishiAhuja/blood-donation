@@ -9,14 +9,14 @@ import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:sizer/sizer.dart';
 
-class DonatePending extends StatefulWidget {
+class Donors extends StatefulWidget {
   final String ngoUsername;
-  DonatePending({this.ngoUsername});
+  Donors({this.ngoUsername});
   @override
-  _DonatePendingState createState() => _DonatePendingState();
+  _DonorsState createState() => _DonorsState();
 }
 
-class _DonatePendingState extends State<DonatePending> {
+class _DonorsState extends State<Donors> {
   final GlobalKey<ScaffoldState> _scaffold = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
@@ -282,57 +282,57 @@ class _DonatePendingState extends State<DonatePending> {
 
                                             ),
                                           ),
-                                          InkWell(
-                                            onTap: ()
-                                            async{
-                                              print(data['id']);
-                                              await FirebaseFirestore.instance.collection('donate_pending').doc('${data['id']}').update({'pending': false, 'ngo': widget.ngoUsername})
-                                                  .then((value) async{
-                                                    FirebaseFirestore.instance.collection('donors').add(data).then((value){
-                                                      var randomDoc = FirebaseFirestore.instance.collection('approved_donors_notification').doc();
-                                                      FirebaseFirestore.instance.collection('approved_donors_notifications').doc('${randomDoc.id}').set({
-                                                        'token': data['token'],
-                                                        'sent': false,
-                                                        'id': randomDoc.id,
-                                                        'name': data['name'],
-                                                        'ngo': widget.ngoUsername
-                                                      }).then((value) {
-                                                        _scaffold.currentState.showSnackBar(SnackBar(content: Text('Approved Successfully', style: GoogleFonts.poppins(),),));
-                                                      }).onError((error, stackTrace) {
-                                                        _scaffold.currentState.showSnackBar(SnackBar(content: Text('Error Approving', style: GoogleFonts.poppins(),),));
-                                                      });
-                                                      Navigator.pop(context);
-                                                    }).onError((error, stackTrace) {
-                                                      _scaffold.currentState.showSnackBar(SnackBar(content: Text('Error Approving', style: GoogleFonts.poppins(),),));
-                                                    });
-                                              })
-                                                  .catchError((error) {
-                                                print(error);
-                                                _scaffold.currentState.showSnackBar(SnackBar(content: Text('Error Approving', style: GoogleFonts.poppins(),),));
-                                              });
-                                            },
-                                            child: Container(
-                                              // margin: EdgeInsets.symmetric(horizontal: 100),
-                                              padding: EdgeInsets.symmetric(vertical: 7, horizontal: 25),
-                                              width: MediaQuery.of(context).size.width/1.4,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(color: Colors.red, width: 2),
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.circular(4),
-                                              ),
-                                              child: Align(
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  'Mark as Approved',
-                                                  textAlign: TextAlign.center,
-                                                  style: GoogleFonts.poppins(
-                                                      fontSize: 20,
-                                                      color: Colors.red
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                                          // InkWell(
+                                          //   onTap: ()
+                                          //   async{
+                                          //     print(data['id']);
+                                          //     await FirebaseFirestore.instance.collection('donate_pending').doc('${data['id']}').update({'pending': false, 'ngo': widget.ngoUsername})
+                                          //         .then((value) async{
+                                          //       FirebaseFirestore.instance.collection('donors').add(data).then((value){
+                                          //         var randomDoc = FirebaseFirestore.instance.collection('approved_donors_notification').doc();
+                                          //         FirebaseFirestore.instance.collection('approved_donors_notifications').doc('${randomDoc.id}').set({
+                                          //           'token': data['token'],
+                                          //           'sent': false,
+                                          //           'id': randomDoc.id,
+                                          //           'name': data['name'],
+                                          //           'ngo': widget.ngoUsername
+                                          //         }).then((value) {
+                                          //           _scaffold.currentState.showSnackBar(SnackBar(content: Text('Approved Successfully', style: GoogleFonts.poppins(),),));
+                                          //         }).onError((error, stackTrace) {
+                                          //           _scaffold.currentState.showSnackBar(SnackBar(content: Text('Error Approving', style: GoogleFonts.poppins(),),));
+                                          //         });
+                                          //         Navigator.pop(context);
+                                          //       }).onError((error, stackTrace) {
+                                          //         _scaffold.currentState.showSnackBar(SnackBar(content: Text('Error Approving', style: GoogleFonts.poppins(),),));
+                                          //       });
+                                          //     })
+                                          //         .catchError((error) {
+                                          //       print(error);
+                                          //       _scaffold.currentState.showSnackBar(SnackBar(content: Text('Error Approving', style: GoogleFonts.poppins(),),));
+                                          //     });
+                                          //   },
+                                          //   child: Container(
+                                          //     // margin: EdgeInsets.symmetric(horizontal: 100),
+                                          //     padding: EdgeInsets.symmetric(vertical: 7, horizontal: 25),
+                                          //     width: MediaQuery.of(context).size.width/1.4,
+                                          //     decoration: BoxDecoration(
+                                          //       border: Border.all(color: Colors.red, width: 2),
+                                          //       color: Colors.white,
+                                          //       borderRadius: BorderRadius.circular(4),
+                                          //     ),
+                                          //     child: Align(
+                                          //       alignment: Alignment.center,
+                                          //       child: Text(
+                                          //         'Mark as Approved',
+                                          //         textAlign: TextAlign.center,
+                                          //         style: GoogleFonts.poppins(
+                                          //             fontSize: 20,
+                                          //             color: Colors.red
+                                          //         ),
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          // ),
                                           SizedBox(height: 25,)
                                         ],
 
@@ -351,7 +351,7 @@ class _DonatePendingState extends State<DonatePending> {
                           );
                         },
                         // orderBy is compulsory to enable pagination
-                        query: FirebaseFirestore.instance.collection('donate_pending').where('pending', isEqualTo: true).orderBy('name'),
+                        query: FirebaseFirestore.instance.collection('donors').orderBy('name'),
                         //Change types accordingly
                         itemBuilderType: PaginateBuilderType.listView,
                         // to fetch real-time data
