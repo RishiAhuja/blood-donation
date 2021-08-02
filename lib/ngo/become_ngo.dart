@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -13,6 +14,8 @@ class _BecomeNgoState extends State<BecomeNgo> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController name = TextEditingController();
+  TextEditingController user = TextEditingController();
+  TextEditingController password = TextEditingController();
   TextEditingController phone = TextEditingController();
   TextEditingController member = TextEditingController();
   TextEditingController desc = TextEditingController();
@@ -21,7 +24,7 @@ class _BecomeNgoState extends State<BecomeNgo> {
   String _district;
   String _city;
   List<String> districtList = [];
-
+  bool _userExists = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -30,22 +33,42 @@ class _BecomeNgoState extends State<BecomeNgo> {
   }
   sendRequest()
   async{
+
     if(_formKey.currentState.validate())
     {
       print('validated!');
+      String token = await FirebaseMessaging.instance.getToken();
       await FirebaseFirestore.instance.collection('ngo_request').add({
         'name': name.text,
+        'username': user.text,
+        'password': password.text,
         'state': _state.toLowerCase(),
         'district': _district.toLowerCase(),
         'city': _city.toLowerCase(),
         'phone': phone.text,
         'desc': desc.text,
         'member': member.text,
+        'token': token,
         'pending': true
       })
           .then((value) {
         _scaffold.currentState.showSnackBar(SnackBar(content: Text('Submitted Successfully', style: GoogleFonts.poppins(),),));
-        Navigator.pop(context);
+        // Navigator.pop(context);
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text("You are all set!",style: GoogleFonts.poppins()),
+            content: Text("Your request has been sent to admin. You will recieve a notification on the same phone when the admin approves you. After you are approved by the admin you can login from the NGO login screen and you can start your work", style: GoogleFonts.poppins(height: 1.7),),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Text("Close", style: GoogleFonts.poppins(),),
+              ),
+            ],
+          ),
+        );
       })
 
           .catchError((error) {
@@ -149,6 +172,90 @@ class _BecomeNgoState extends State<BecomeNgo> {
                                                 decoration: InputDecoration(
                                                     border: InputBorder.none,
                                                     hintText: 'NGO Name',
+                                                    hintStyle: GoogleFonts.poppins(
+                                                        color: Colors.grey
+                                                    )
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 15,),
+                                      Container(
+                                        margin: EdgeInsets.symmetric(horizontal: 30),
+                                        width: MediaQuery.of(context).size.width/1.3,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(8),
+                                            border: Border.all(color: Colors.grey)
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            SizedBox(width: 10,),
+                                            Icon(Icons.verified_user, color: Colors.grey, ),
+                                            SizedBox(width: 10,),
+                                            Container(
+                                              width: MediaQuery.of(context).size.width/1.6,
+                                              child: TextFormField(
+                                                validator: (val)
+                                                {
+                                                  var length;
+                                                  FirebaseFirestore.instance.collection('ngo').where('username', isEqualTo: user.text).get().then((value) {
+                                                    setState(() {
+
+                                                      print(value.docs.length);
+                                                      if(value.docs.length == 0){
+                                                        _userExists = false;
+                                                        print(_userExists);
+                                                        length = 0;
+                                                      }else{
+                                                        _userExists = true;
+                                                        length = 1;
+                                                      }
+                                                    });
+                                                  });
+                                                  return val.length < 3 || val == '' || val == null || length == 1 ? 'Please choose another username' : null;
+                                                },
+                                                controller: user,
+                                                style: GoogleFonts.poppins(),
+                                                decoration: InputDecoration(
+                                                    border: InputBorder.none,
+                                                    hintText: 'Select a username..',
+                                                    hintStyle: GoogleFonts.poppins(
+                                                        color: Colors.grey
+                                                    )
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 15,),
+
+                                      Container(
+                                        margin: EdgeInsets.symmetric(horizontal: 30),
+                                        width: MediaQuery.of(context).size.width/1.3,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(8),
+                                            border: Border.all(color: Colors.grey)
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            SizedBox(width: 10,),
+                                            Icon(Icons.password, color: Colors.grey, ),
+                                            SizedBox(width: 10,),
+                                            Container(
+                                              width: MediaQuery.of(context).size.width/1.6,
+                                              child: TextFormField(
+                                                validator: (val)
+                                                {
+                                                  return val.length < 6 || val == '' || val == null ? 'Please enter a 6+ password' : null;
+                                                },
+                                                controller: password,
+                                                style: GoogleFonts.poppins(),
+                                                decoration: InputDecoration(
+                                                    border: InputBorder.none,
+                                                    hintText: 'Select a password..',
                                                     hintStyle: GoogleFonts.poppins(
                                                         color: Colors.grey
                                                     )
@@ -819,7 +926,7 @@ class _BecomeNgoState extends State<BecomeNgo> {
     if(district == 'Mohali'){
       setState(() {
         districtList = [
-          'Not Found'
+          'Mohali'
         ];
       });
     }
@@ -852,6 +959,5 @@ class _BecomeNgoState extends State<BecomeNgo> {
 
 
 
-
-
-
+//Phathankot + Mansa
+// Multiple no in ngo become

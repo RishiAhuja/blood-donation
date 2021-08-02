@@ -47,11 +47,9 @@ class Notification extends StatefulWidget {
 }
 
 class NotificationState extends State<Notification> {
-  bool _isNGO = false;
   void initState() {
     // TODO: implement initState
     super.initState();
-    getSF();
     LocalNotificationService.initialize(context);
     FirebaseMessaging.instance.getInitialMessage().then((message) {
       if (message != null) {
@@ -75,23 +73,12 @@ class NotificationState extends State<Notification> {
       print("when user taps on Notification!");
     });
   }
-  getSF()async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.getBool('isNGO');
-    if(prefs.getBool('isNGO') != null){
-      setState(() {
-        _isNGO = prefs.getBool('isNGO');
-      });
-    }
-  }
+
   @override
   Widget build(BuildContext context) {
-    if(_isNGO){
-      return Pending();
-    }
-    else {
+
       return Home();
-    }
+
   }
 
 }

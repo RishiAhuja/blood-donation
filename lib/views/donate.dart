@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:firebase_storage/firebase_storage.dart';
 
 class Donate extends StatefulWidget {
 
@@ -409,15 +408,11 @@ class _DonateState extends State<Donate> {
                                           width: MediaQuery.of(context).size.width/1.6,
                                           child: TextFormField(
                                             controller: altPhone,
-                                            validator: (val)
-                                            {
-                                              return val.length < 10 || val.length > 10 || val == null || val == "" ? 'Please enter a valid number' : null;
-                                            },
                                             keyboardType: TextInputType.phone,
                                             style: GoogleFonts.poppins(),
                                             decoration: InputDecoration(
                                                 border: InputBorder.none,
-                                                hintText: 'Alternate no.',
+                                                hintText: 'Alternate no. (optional)',
                                                 hintStyle: GoogleFonts.poppins(
                                                     color: Colors.grey
                                                 )

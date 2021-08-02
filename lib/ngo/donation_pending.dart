@@ -36,7 +36,7 @@ class _DonatePendingState extends State<DonatePending> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Text(
-                  'Donation Pending Requests',
+                  'Donor Registration Pending',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                       fontSize: 22,

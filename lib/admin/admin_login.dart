@@ -2,6 +2,7 @@ import 'package:blood/admin/admin.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminLogin extends StatefulWidget {
   @override
@@ -159,11 +160,13 @@ class _AdminLoginState extends State<AdminLogin> {
 
 
                             InkWell(
-                              onTap: () {
+                              onTap: () async{
                                 if(_formKey.currentState.validate())
                                   {
                                     if(username.text == 'admin' && password.text == 'adminpass@3456'){
                                       print("validated");
+                                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                                      prefs.setBool('isAdmin', true);
                                       Navigator.push(context, MaterialPageRoute(builder: (context) => Admin()));
                                     }
                                     if(username.text != 'admin' || password.text != 'adminpass@3456'){

@@ -153,3 +153,43 @@ exports.donateApproved = functions.pubsub.schedule('* * * * *').onRun(async (con
 
     return console.log('End Of Function');
 });
+
+exports.approvedNGO = functions.pubsub.schedule('* * * * *').onRun(async (context) => {
+    const query = await database.collection("ngo_approved_notification")
+        .where("sent", "==", false).get();
+
+    query.forEach(async snapshot => {
+    console.log(snapshot.data());
+   const payload = {
+       	token: snapshot.data().token,
+           notification: {
+               title: 'Hey ' + snapshot.data().ngo + '! You request is approved',
+               body: "Congratulations! Now you can login to use your account..",
+
+           },
+            android: {
+                       priority: "high",
+                       notification: {
+                          'channel_id': 'blood',
+                       },
+                     },
+           data: {
+               click_action: 'FLUTTER_NOTIFICATION_CLICK'
+           }
+       };
+        admin.messaging().send(payload).then((response) => {
+                // Response is a message ID string.
+                console.log('Successfully sent message:', response);
+                admin.firestore().collection('ngo_approved_notification').doc(snapshot.data().id).update({"sent": true,})
+                //changeDataConfirm(snapshot.data().token);
+                return {success: true};
+            }).then(() => {
+                  response.end();
+              }).catch(error => {
+                            return console.log("Error Sending Message");
+                        });
+
+    });
+
+    return console.log('End Of Function');
+});

@@ -1,3 +1,4 @@
+import 'package:blood/admin/admin.dart';
 import 'package:blood/admin/admin_login.dart';
 import 'package:blood/ngo/become_ngo.dart';
 import 'package:blood/ngo/ngo_panel.dart';
@@ -75,8 +76,13 @@ class _NgoLoginState extends State<NgoLogin> {
           IconButton(
             icon: Icon(Icons.admin_panel_settings, color: Colors.white),
             onPressed: ()
-            {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AdminLogin()));
+            async{
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              if(prefs.getBool('isAdmin') != null){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Admin()));
+              }else{
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AdminLogin()));
+              }
             },
           )
         ],

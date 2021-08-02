@@ -1,16 +1,14 @@
+import 'package:blood/helper/network_image_view.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ApproveNgoRequest extends StatefulWidget {
-  final String name;
-  final String city;
-  final String state;
-  final String phone;
-  final String district;
-  final String doc;
-  ApproveNgoRequest({@required this.doc, @required this.phone, @required this.state, @required this.name, @required this.city, @required this.district});
+  final Map data;
+  ApproveNgoRequest({this.data});
   @override
   _ApproveNgoRequestState createState() => _ApproveNgoRequestState();
 }
@@ -32,25 +30,25 @@ class _ApproveNgoRequestState extends State<ApproveNgoRequest> {
   async{
     if(_formKey.currentState.validate())
     {
-      print('validated!');
-      await FirebaseFirestore.instance.collection('ngo').add({
-        'name': widget.name.trim(),
-        'username': username.text.trim(),
-        'password': password.text.trim(),
-        'city': widget.city.toLowerCase(),
-        'state': widget.state.toLowerCase(),
-        'phone': widget.phone.trim()
-      })
-          .then((value) {
-            FirebaseFirestore.instance.collection('ngo_request').doc('${widget.doc}').update({'pending': false}).then((value) {
-              _scaffold.currentState.showSnackBar(SnackBar(content: Text('Submission Successfully', style: GoogleFonts.poppins(),),));
-
-            });
-      })
-          .catchError((error) {
-        print(error);
-        _scaffold.currentState.showSnackBar(SnackBar(content: Text('Submission Failed', style: GoogleFonts.poppins(),),));
-      });
+    //   print('validated!');
+    //   await FirebaseFirestore.instance.collection('ngo').add({
+    //     'name': widget.name.trim(),
+    //     'username': username.text.trim(),
+    //     'password': password.text.trim(),
+    //     'city': widget.city.toLowerCase(),
+    //     'state': widget.state.toLowerCase(),
+    //     'phone': widget.phone.trim()
+    //   })
+    //       .then((value) {
+    //         FirebaseFirestore.instance.collection('ngo_request').doc('${widget.doc}').update({'pending': false}).then((value) {
+    //           _scaffold.currentState.showSnackBar(SnackBar(content: Text('Submission Successfully', style: GoogleFonts.poppins(),),));
+    //
+    //         });
+    //   })
+    //       .catchError((error) {
+    //     print(error);
+    //     _scaffold.currentState.showSnackBar(SnackBar(content: Text('Submission Failed', style: GoogleFonts.poppins(),),));
+    //   });
     }
   }
 
@@ -70,7 +68,7 @@ class _ApproveNgoRequestState extends State<ApproveNgoRequest> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Add a new NGO!',
+                'Approve NGO!',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(
                     fontSize: 25,
@@ -92,115 +90,229 @@ class _ApproveNgoRequestState extends State<ApproveNgoRequest> {
                   ),
                   child: Align(
                     alignment: Alignment.topCenter,
-                    child: Form(
-                      key: _formKey,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            SizedBox(height: 30,),
-                            Container(
-                              margin: EdgeInsets.symmetric(horizontal: 30),
-                              width: MediaQuery.of(context).size.width/1.3,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(color: Colors.grey)
-                              ),
-                              child: Row(
-                                children: [
-                                  SizedBox(width: 10,),
-                                  Icon(Icons.person, color: Colors.grey, ),
-                                  SizedBox(width: 10,),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width/1.6,
-                                    child: TextFormField(
-                                      validator: (val)
-                                      {
-                                        return val.length < 3 || val == '' || val == null ? 'Please enter a valid name' : null;
-                                      },
-                                      controller: username,
-                                      style: GoogleFonts.poppins(),
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: 'Set a username',
-                                          hintStyle: GoogleFonts.poppins(
-                                              color: Colors.grey
-                                          )
+                    child: Container(
+                      color: Colors.white,
+                      padding: EdgeInsets.all(20.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Table(
+                            border: TableBorder.all(color: Colors.white),
+                            children: [
+                              TableRow(
+                                  children: [
+                                    Text(
+                                      'Name',
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 19
                                       ),
                                     ),
-                                  ),
-
-
-
-
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 15,),
-                            Container(
-                              margin: EdgeInsets.symmetric(horizontal: 30),
-                              width: MediaQuery.of(context).size.width/1.3,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(color: Colors.grey)
-                              ),
-                              child: Row(
-                                children: [
-                                  SizedBox(width: 10,),
-                                  Icon(Icons.password, color: Colors.grey, ),
-                                  SizedBox(width: 10,),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width/1.6,
-                                    child: TextFormField(
-                                      validator: (val)
-                                      {
-                                        return val.length < 3 || val == '' || val == null ? 'Please enter a valid username' : null;
-                                      },
-                                      controller: password,
-                                      style: GoogleFonts.poppins(),
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: 'Assign a username',
-                                          hintStyle: GoogleFonts.poppins(
-                                              color: Colors.grey
-                                          )
+                                    Text(
+                                      '${widget.data['name']}',
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 19
                                       ),
                                     ),
+                                  ]),
+                              TableRow(
+                                  children: [
+                                    Text(
+                                      'State',
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 19
+                                      ),
+                                    ),
+                                    Text(
+                                      '${widget.data['state']}',
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 19
+                                      ),
+                                    ),
+                                  ]),
+                              TableRow(
+                                  children: [
+                                    Text(
+                                      'District',
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 19
+                                      ),
+                                    ),
+                                    Text(
+                                      '${widget.data['district']}',
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 19
+                                      ),
+                                    ),
+                                  ]),
+
+                              TableRow(
+                                  children: [
+                                    Text(
+                                      'City',
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 19
+                                      ),
+                                    ),
+                                    Text(
+                                      '${widget.data['city']}',
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 19
+                                      ),
+                                    ),
+                                  ]),
+
+
+
+                              TableRow(
+                                  children: [
+                                    Text(
+                                      'No. of Members',
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 19
+                                      ),
+                                    ),
+                                    Text(
+                                      '${widget.data['member']}',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 19,
+                                      ),
+                                    ),
+                                  ]),
+
+                              TableRow(
+                                  children: [
+                                    Text(
+                                      'Phone no.',
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 19
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () async{
+                                        if (await canLaunch('tel:+91${widget.data['phone']}')) {
+                                          await launch('tel:+91${widget.data['phone']}');
+                                        } else {
+                                          throw 'Could not launch tel:+91${widget.data['phone']}';
+                                        }
+                                      },
+                                      child: Text(
+                                        '+91${widget.data['phone']}',
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 19,
+                                          color: Colors.blue,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                    ),
+                                  ]),
+                              TableRow(
+                                  children: [
+                                    Text(
+                                      'Description',
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 19
+                                      ),
+                                    ),
+                                    Text(
+                                      '${widget.data['desc']}',
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 19
+                                      ),
+                                    ),
+                                  ]),
+
+
+                            ],
+
+                          ),
+                          SizedBox(height: 10,),
+                          Divider(thickness: 7,),
+                          SizedBox(height: 10,),
+                          Table(
+                            border: TableBorder.all(color: Colors.white),
+                            children: [
+                              TableRow(
+                                  children: [
+                                    Text(
+                                      'Username',
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 19
+                                      ),
+                                    ),
+                                    Text(
+                                      '${widget.data['username']}',
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 19
+                                      ),
+                                    ),
+                                  ]),
+
+
+
+                              TableRow(
+                                  children: [
+                                    Text(
+                                      'Password',
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 19
+                                      ),
+                                    ),
+                                    Text(
+                                      '${widget.data['password']}',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 19,
+                                      ),
+                                    ),
+                                  ]),
+                            ],
+                          ),
+                          SizedBox(height: 20,),
+                          InkWell(
+                            onTap: ()
+                            async{
+                              await FirebaseFirestore.instance.collection('ngo_request').doc('${widget.data['id']}').update({
+                                'pending': false,
+                              }).then((value) {
+                                var dataSet = widget.data;
+                                dataSet['pending'] = false;
+
+                               FirebaseFirestore.instance.collection('ngo').add(dataSet).then((value){
+                                 var doc = FirebaseFirestore.instance.collection('ngo_approved_notification').doc();
+                                 FirebaseFirestore.instance.collection('ngo_approved_notification').add({
+                                   'token': widget.data['token'],
+                                   'id': doc.id,
+                                   'ngo': widget.data['name'],
+                                   'sent': false
+                                 }).then((value) {
+                                   _scaffold.currentState.showSnackBar(SnackBar(content: Text('Approved Successfully', style: GoogleFonts.poppins())));
+                                   Navigator.pop(context);
+                                 });
+                               });
+                              });
+                            },
+                            child: Container(
+                              // margin: EdgeInsets.symmetric(horizontal: 100),
+                              padding: EdgeInsets.symmetric(vertical: 7, horizontal: 25),
+                              width: MediaQuery.of(context).size.width/1.4,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.red, width: 2),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'Mark as Approved',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 20,
+                                      color: Colors.red
                                   ),
-
-
-
-
-                                ],
+                                ),
                               ),
                             ),
-                            SizedBox(height: 20,),
-                            InkWell(
-                              onTap: ()
-                              {
-                                addNgo();
-                              },
-                              child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 100),
-                                padding: EdgeInsets.symmetric(vertical: 7, horizontal: 25),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.red, width: 2),
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'ADD',
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 20,
-                                        color: Colors.red
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

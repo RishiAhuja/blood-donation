@@ -67,7 +67,7 @@ class _PendingNgoRequestState extends State<PendingNgoRequest> {
                           leading: CircleAvatar(child: Icon(Icons.person)),
                           trailing: GestureDetector(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => ApproveNgoRequest(phone: data['phone'], state: data['state'], name: data['name'], city: data['city'], district: data['district'], doc: data['doc'],)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => ApproveNgoRequest(data: data)));
                             },
                             child: Icon(
                                 Icons.arrow_forward_ios,

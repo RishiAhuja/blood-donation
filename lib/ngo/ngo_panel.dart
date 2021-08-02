@@ -1,11 +1,12 @@
+import 'package:blood/find/find.dart';
 import 'package:blood/ngo/donation_pending.dart';
-import 'package:blood/ngo/donors.dart';
-import 'package:blood/views/donate.dart';
+import 'package:blood/ngo/search_donors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -15,9 +16,14 @@ class Pending extends StatefulWidget {
   _PendingState createState() => _PendingState();
 }
 
+Map donorData;
+
 class _PendingState extends State<Pending> {
   final GlobalKey<ScaffoldState> _scaffold = GlobalKey<ScaffoldState>();
   String ngoName = '';
+  QueryDocumentSnapshot<Object> elementMap;
+  String _dateString;
+  String _timeString;
   @override
   void initState() {
     // TODO: implement initState
@@ -36,6 +42,25 @@ class _PendingState extends State<Pending> {
       ngoName = prefs.getString('NGOName');
     });
   }
+
+  void _getDate() {
+    final String formattedDateTime =
+    DateFormat('dd-MM-yy').format(DateTime.now()).toString();
+    setState(() {
+      _dateString = formattedDateTime;
+      print(_dateString);
+    });
+  }
+
+  void _getTime() {
+    final String formattedDateTime =
+    DateFormat('kk:mm:ss').format(DateTime.now()).toString();
+    setState(() {
+      _timeString = formattedDateTime;
+      print(_timeString);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +70,7 @@ class _PendingState extends State<Pending> {
         children: [
           FloatingActionButton(
             onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Donors(ngoUsername: ngoName,)));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SearchDonors(ngoUsername: ngoName,)));
             },
             child: Icon(Icons.event_available),
           ),
@@ -191,20 +216,20 @@ class _PendingState extends State<Pending> {
                                                 alignment: Alignment.center,
                                                 child: Column(
                                                   mainAxisAlignment: MainAxisAlignment.center,
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      '${data['attendant']} requested ${data['blood']} blood',
+                                                      '${toBeginningOfSentenceCase('${data['name']}')}',
                                                       style: GoogleFonts.poppins(
                                                         color: Colors.white,
-                                                        fontSize: 15
+                                                        fontSize: 20
                                                       ),
                                                     ),
                                                     Text(
-                                                      'for ${data['name']}',
+                                                      '${data['blood']}',
                                                       style: GoogleFonts.poppins(
-                                                          color: Colors.white,
-                                                          fontSize: 15
+                                                          color: Colors.white54,
+                                                          fontSize: 17
                                                       ),
                                                     )
                                                   ],
@@ -225,133 +250,187 @@ class _PendingState extends State<Pending> {
                                                         Container(
                                                           color: Colors.white,
                                                           padding: EdgeInsets.all(20.0),
-                                                          child: Table(
-                                                            border: TableBorder.all(color: Colors.white),
+                                                          child: Column(
                                                             children: [
-                                                              TableRow(
-                                                                  children: [
-                                                                Text(
-                                                                    'Blood Type',
+                                                              Align(
+                                                                alignment: Alignment.centerLeft,
+                                                                child: Text(
+                                                                  'Patients data',
                                                                   style: GoogleFonts.poppins(
-                                                                    fontSize: 19
+                                                                    fontSize: 24
                                                                   ),
                                                                 ),
-                                                                Text(
-                                                                    '${data['blood']}',
-                                                                  style: GoogleFonts.poppins(
-                                                                      fontSize: 19
-                                                                  ),
-                                                                ),
-                                                              ]),
-                                                              TableRow(
-                                                                  children: [
+                                                              ),
+                                                              Table(
+                                                                border: TableBorder.all(color: Colors.white),
+                                                                children: [
+                                                                  TableRow(
+                                                                      children: [
                                                                     Text(
-                                                                      'Patient',
+                                                                        'Blood Type',
                                                                       style: GoogleFonts.poppins(
-                                                                          fontSize: 19
+                                                                        fontSize: 19
                                                                       ),
                                                                     ),
                                                                     Text(
-                                                                      '${data['name']}',
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontSize: 19
-                                                                      ),
-                                                                    ),
-                                                                  ]),
-                                                              TableRow(
-                                                                  children: [
-                                                                    Text(
-                                                                      'State',
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontSize: 19
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      '${data['state']}',
+                                                                        '${data['blood']}',
                                                                       style: GoogleFonts.poppins(
                                                                           fontSize: 19
                                                                       ),
                                                                     ),
                                                                   ]),
-                                                              TableRow(
-                                                                  children: [
-                                                                    Text(
-                                                                        'City',
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontSize: 19
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      '${data['city']}',
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontSize: 19
-                                                                      ),
-                                                                    ),
-                                                                  ]),
-                                                              TableRow(
-                                                                  children: [
-                                                                    Text(
-                                                                      'Hospital',
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontSize: 19
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      '${data['hospital']}',
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontSize: 19
-                                                                      ),
-                                                                    ),
-                                                                  ]),
-                                                              TableRow(
-                                                                  children: [
-                                                                    Text(
-                                                                      'Attendant',
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontSize: 19
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      '${data['attendant']}',
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontSize: 19
-                                                                      ),
-                                                                    ),
-                                                                  ]),
-                                                              TableRow(
-                                                                  children: [
-                                                                    Text(
-                                                                      'Attendant no.',
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontSize: 19
-                                                                      ),
-                                                                    ),
-                                                                    GestureDetector(
-                                                                      onTap: () async{
-                                                                        if (await canLaunch('tel:+91${data['number']}')) {
-                                                                          await launch('tel:+91${data['number']}');
-                                                                        } else {
-                                                                          throw 'Could not launch tel:+91${data['number']}';
-                                                                        }
-                                                                      },
-                                                                      child: Text(
-                                                                        '+91${data['number']}',
-                                                                        style: GoogleFonts.poppins(
-                                                                            fontSize: 19,
-                                                                            color: Colors.blue,
-                                                                            decoration: TextDecoration.underline,
+                                                                  TableRow(
+                                                                      children: [
+                                                                        Text(
+                                                                          'Patient',
+                                                                          style: GoogleFonts.poppins(
+                                                                              fontSize: 19
+                                                                          ),
                                                                         ),
+                                                                        Text(
+                                                                          '${data['name']}',
+                                                                          style: GoogleFonts.poppins(
+                                                                              fontSize: 19
+                                                                          ),
+                                                                        ),
+                                                                      ]),
+                                                                  TableRow(
+                                                                      children: [
+                                                                        Text(
+                                                                          'State',
+                                                                          style: GoogleFonts.poppins(
+                                                                              fontSize: 19
+                                                                          ),
+                                                                        ),
+                                                                        Text(
+                                                                          '${data['state']}',
+                                                                          style: GoogleFonts.poppins(
+                                                                              fontSize: 19
+                                                                          ),
+                                                                        ),
+                                                                      ]),
+                                                                  TableRow(
+                                                                      children: [
+                                                                        Text(
+                                                                          'District',
+                                                                          style: GoogleFonts.poppins(
+                                                                              fontSize: 19
+                                                                          ),
+                                                                        ),
+                                                                        Text(
+                                                                          '${data['district']}',
+                                                                          style: GoogleFonts.poppins(
+                                                                              fontSize: 19
+                                                                          ),
+                                                                        ),
+                                                                      ]),
+                                                                  TableRow(
+                                                                      children: [
+                                                                        Text(
+                                                                            'City',
+                                                                          style: GoogleFonts.poppins(
+                                                                              fontSize: 19
+                                                                          ),
+                                                                        ),
+                                                                        Text(
+                                                                          '${data['city']}',
+                                                                          style: GoogleFonts.poppins(
+                                                                              fontSize: 19
+                                                                          ),
+                                                                        ),
+                                                                      ]),
+                                                                  TableRow(
+                                                                      children: [
+                                                                        Text(
+                                                                          'Hospital',
+                                                                          style: GoogleFonts.poppins(
+                                                                              fontSize: 19
+                                                                          ),
+                                                                        ),
+                                                                        Text(
+                                                                          '${data['hospital']}',
+                                                                          style: GoogleFonts.poppins(
+                                                                              fontSize: 19
+                                                                          ),
+                                                                        ),
+                                                                      ]),
+                                                                  TableRow(
+                                                                      children: [
+                                                                        Text(
+                                                                          'Attendant',
+                                                                          style: GoogleFonts.poppins(
+                                                                              fontSize: 19
+                                                                          ),
+                                                                        ),
+                                                                        Text(
+                                                                          '${data['attendant']}',
+                                                                          style: GoogleFonts.poppins(
+                                                                              fontSize: 19
+                                                                          ),
+                                                                        ),
+                                                                      ]),
+                                                                  TableRow(
+                                                                      children: [
+                                                                        Text(
+                                                                          'Attendant no.',
+                                                                          style: GoogleFonts.poppins(
+                                                                              fontSize: 19
+                                                                          ),
+                                                                        ),
+                                                                        GestureDetector(
+                                                                          onTap: () async{
+                                                                            if (await canLaunch('tel:+91${data['number']}')) {
+                                                                              await launch('tel:+91${data['number']}');
+                                                                            } else {
+                                                                              throw 'Could not launch tel:+91${data['number']}';
+                                                                            }
+                                                                          },
+                                                                          child: Text(
+                                                                            '+91${data['number']}',
+                                                                            style: GoogleFonts.poppins(
+                                                                                fontSize: 19,
+                                                                                color: Colors.blue,
+                                                                                decoration: TextDecoration.underline,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ]),
+                                                                ],
+
+                                                              ),
+                                                              SizedBox(height: 30,),
+                                                              InkWell(
+
+                                                                  onTap: () async{
+                                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => Fulfill(district: data['district'], city: data['city'], state: data['state'], blood: data['blood'])));
+                                                                  },
+                                                                child: Container(
+                                                                  padding: EdgeInsets.symmetric(vertical: 7, horizontal: 25),
+                                                                  width: MediaQuery.of(context).size.width/1.4,
+                                                                  decoration: BoxDecoration(
+                                                                    border: Border.all(color: Colors.red, width: 2),
+                                                                    color: Colors.white,
+                                                                    borderRadius: BorderRadius.circular(4),
+                                                                  ),
+                                                                  child: Align(
+                                                                    alignment: Alignment.center,
+                                                                    child: Text(
+                                                                      'Search Donors',
+                                                                      style: GoogleFonts.poppins(
+                                                                          fontSize: 20,
+                                                                          color: Colors.red
                                                                       ),
                                                                     ),
-                                                                  ]),
-
+                                                                  ),
+                                                                ),
+                                                              ),
                                                             ],
-
                                                           ),
                                                         ),
                                                         InkWell(
                                                           onTap: ()
                                                           async{
+                                                            _getDate();
                                                             await FirebaseFirestore.instance.collection('request').doc('${data['id']}').update({'pending': false, 'ngo': '$ngoName'})
                                                             .then((value) {
                                                               var randomDoc = FirebaseFirestore.instance.collection("approved_request_notification").doc();
@@ -359,13 +438,16 @@ class _PendingState extends State<Pending> {
                                                                 'ngo': ngoName,
                                                                 'token': data['token'],
                                                                 'patient': data['name'],
+                                                                'donor': data['name'],
                                                                 'sent': false,
                                                                 'id': randomDoc.id
                                                               }).then((value) {
-                                                                _scaffold.currentState.showSnackBar(SnackBar(content: Text('Approved Successfully', style: GoogleFonts.poppins(),),));
-                                                                Navigator.of(
-                                                                    context)
-                                                                    .pop();
+                                            FirebaseFirestore.instance.collection("donors").doc('${donorData['id']}').update({
+                                              'donated': _dateString
+                                            }).then((value){
+                                              _scaffold.currentState.showSnackBar(SnackBar(content: Text('Approved Successfully', style: GoogleFonts.poppins(),),));
+                                              Navigator.of(context).pop();
+                                            });
                                                               });
 
                                                             })

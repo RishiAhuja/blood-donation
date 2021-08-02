@@ -11,7 +11,11 @@ import 'package:sizer/sizer.dart';
 
 class Donors extends StatefulWidget {
   final String ngoUsername;
-  Donors({this.ngoUsername});
+  final String blood;
+  final String state;
+  final String district;
+  final String city;
+  Donors({this.ngoUsername, @required this.district, @required this.city, @required this.state, @required this.blood});
   @override
   _DonorsState createState() => _DonorsState();
 }
@@ -36,7 +40,7 @@ class _DonorsState extends State<Donors> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Text(
-                  'Donation Pending Requests',
+                  'Trusted Donors',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                       fontSize: 22,
@@ -240,6 +244,27 @@ class _DonorsState extends State<Donors> {
                                                         ),
                                                       ),
                                                     ]),
+
+                                                TableRow(
+                                                    children: [
+                                                      Text(
+                                                        'Last Donated',
+                                                        style: GoogleFonts.poppins(
+                                                            fontSize: 19
+                                                        ),
+                                                      ),
+                                                      data['donated'] != null ? Text(
+                                                        '${data['donated']}',
+                                                        style: GoogleFonts.poppins(
+                                                            fontSize: 19
+                                                        ),
+                                                      ) : Text(
+                                                        'Not Donated',
+                                                        style: GoogleFonts.poppins(
+                                                            fontSize: 19
+                                                        ),
+                                                      ),
+                                                    ]),
                                                 data['image'] !=null ? TableRow(
                                                     children: [
                                                       Container(
@@ -350,11 +375,8 @@ class _DonorsState extends State<Donors> {
                             subtitle: Text('${toBeginningOfSentenceCase('${data['city']}')} in ${toBeginningOfSentenceCase('${data['state']}')}', style: GoogleFonts.poppins(),),
                           );
                         },
-                        // orderBy is compulsory to enable pagination
-                        query: FirebaseFirestore.instance.collection('donors').orderBy('name'),
-                        //Change types accordingly
+                        query: FirebaseFirestore.instance.collection('donors').where('blood', isEqualTo: widget.blood).where('state', isEqualTo: widget.state).where('district', isEqualTo: widget.district).where('city', isEqualTo: widget.city).orderBy('name'),
                         itemBuilderType: PaginateBuilderType.listView,
-                        // to fetch real-time data
                         isLive: true,
                         emptyDisplay: Column(
                           children: [

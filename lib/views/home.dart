@@ -1,4 +1,6 @@
+import 'package:blood/admin/admin.dart';
 import 'package:blood/ngo/ngo_login.dart';
+import 'package:blood/ngo/ngo_panel.dart';
 import 'package:blood/views/about.dart';
 import 'package:blood/views/donate.dart';
 import 'package:blood/views/find.dart';
@@ -6,6 +8,7 @@ import 'package:blood/views/request.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 class Home extends StatefulWidget {
@@ -253,7 +256,9 @@ class _HomeState extends State<Home> {
 
                             Flexible(
                               child: InkWell(
-                                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Find())),
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => Find()));
+                                },
                                 child: Container(
                                   width: MediaQuery.of(context).size.width/2.5,
                                   height: 19.h,
@@ -307,7 +312,14 @@ class _HomeState extends State<Home> {
                           children: [
                             Flexible(
                               child: InkWell(
-                                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NgoLogin())),
+                                onTap: () async{
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  if(prefs.getBool('isNGO') != null){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => Pending()));
+                                  }else{
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => NgoLogin()));
+                                  }
+                                },
                                 child: Container(
                                   width: MediaQuery.of(context).size.width/2.5,
                                   height: 19.h,
