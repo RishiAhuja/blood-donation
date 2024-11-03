@@ -1,10 +1,15 @@
 # Blood 4 Life 🩸
 
-> ⚠️ **IMPORTANT NOTE**: Cloud servers are currently shut down due to high server-side costs. As a result, notifications are temporarily disabled, although the feature is fully implemented in the codebase.
+
+<p align="center">
+  <img src="/assets/icon.png" width="80" alt="Blood 4 Life Logo">
+</p>
+
 
 Blood 4 Life is a comprehensive blood donation platform that connects donors, NGOs, and patients through a seamless, user-friendly interface. The application facilitates efficient blood donation management across geographically divided zones within Punjab.
 
-<img src="/assets/icon.png" width="80" alt="Blood 4 Life Logo">
+> ⚠️ **IMPORTANT NOTE**: Cloud servers are currently shut down due to high server-side costs. As a result, notifications are temporarily disabled, although the feature is fully implemented in the codebase.
+
 
 ## 🌟 Key Features
 
