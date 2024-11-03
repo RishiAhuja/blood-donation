@@ -4,7 +4,7 @@
 
 Blood 4 Life is a comprehensive blood donation platform that connects donors, NGOs, and patients through a seamless, user-friendly interface. The application facilitates efficient blood donation management across geographically divided zones within Punjab.
 
-![Blood 4 Life Logo](/assets/icon.png)
+<img src="/assets/icon.png" width="80" alt="Blood 4 Life Logo">
 
 ## 🌟 Key Features
 
