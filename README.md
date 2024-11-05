@@ -63,7 +63,7 @@ You can download the latest version of the application from our [releases page](
 ## 📹 Demo
 
 Watch our application demo:
-[Blood 4 Life Demo](https://www.youtube.com/watch?v=u70xRKwOD0s)
+[Blood 4 Life Demo](https://youtu.be/samwEJI_T5E)
 
 ## 💡 Key Technical Highlights
 
